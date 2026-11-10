@@ -1,0 +1,6 @@
+ft_factorial(-5) = 0
+ft_factorial(0) = 1
+ft_factorial(1) = 1
+ft_factorial(5) = 120
+ft_factorial(10) = 3628800
+ft_factorial(12) = 479001600

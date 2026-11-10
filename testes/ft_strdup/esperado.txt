@@ -1,0 +1,3 @@
+"Ola" copia_nova=1
+"" copia_nova=1
+"Piscine 42 Sao Paulo" copia_nova=1

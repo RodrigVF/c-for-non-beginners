@@ -1,0 +1,6 @@
+ft_is_negative(-1) = N
+ft_is_negative(0) = P
+ft_is_negative(1) = P
+ft_is_negative(-42) = N
+ft_is_negative(2147483647) = P
+ft_is_negative(-2147483648) = N

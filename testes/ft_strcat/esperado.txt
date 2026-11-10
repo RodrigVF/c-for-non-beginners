@@ -1,0 +1,4 @@
+"Ola, " + "Piscine" = "Ola, Piscine" retorno_ok=1
+"" + "abc" = "abc" retorno_ok=1
+"abc" + "" = "abc" retorno_ok=1
+"" + "" = "" retorno_ok=1

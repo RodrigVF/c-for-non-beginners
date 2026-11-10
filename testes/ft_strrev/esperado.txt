@@ -1,0 +1,5 @@
+"abc" -> "cba" retorno_ok=1
+"abcd" -> "dcba" retorno_ok=1
+"a" -> "a" retorno_ok=1
+"" -> "" retorno_ok=1
+"Piscine 42" -> "24 enicsiP" retorno_ok=1

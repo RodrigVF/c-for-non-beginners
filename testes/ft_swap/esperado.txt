@@ -1,0 +1,3 @@
+antes: a=1 b=2 | depois: a=2 b=1
+antes: a=-5 b=42 | depois: a=42 b=-5
+antes: a=7 b=7 | depois: a=7 b=7

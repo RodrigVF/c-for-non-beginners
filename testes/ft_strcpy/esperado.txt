@@ -1,0 +1,3 @@
+[Ola] retorno_ok=1
+[] retorno_ok=1
+[Piscine 42 Sao Paulo] retorno_ok=1

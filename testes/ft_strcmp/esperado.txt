@@ -1,0 +1,9 @@
+caso 1: esperado 0, obtido 0
+caso 2: esperado -1, obtido -1
+caso 3: esperado 1, obtido 1
+caso 4: esperado -1, obtido -1
+caso 5: esperado 1, obtido 1
+caso 6: esperado 0, obtido 0
+caso 7: esperado 1, obtido 1
+caso 8: esperado -1, obtido -1
+caso 9: esperado 1, obtido 1

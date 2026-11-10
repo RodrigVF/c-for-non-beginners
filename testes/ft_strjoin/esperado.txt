@@ -1,0 +1,5 @@
+size=4 sep=", " -> "Ola, Piscine, , 42"
+size=2 sep="" -> "OlaPiscine"
+size=1 sep=" -- " -> "Ola"
+size=0 sep=", " -> ""
+size=3 sep="+" -> "Ola+Piscine+"
