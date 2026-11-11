@@ -1,7 +1,7 @@
-const CACHE = "cfnb-17491d1a77";
+const CACHE = "cfnb-979f369a7a";
 const BASE = [
-  "./", "index.html", "style.css?v=17491d1a77", "app.js?v=17491d1a77",
-  "conteudo.js?v=17491d1a77", "icon.svg", "manifest.webmanifest",
+  "./", "index.html", "style.css?v=979f369a7a", "app.js?v=979f369a7a",
+  "conteudo.js?v=979f369a7a", "icon.svg", "manifest.webmanifest",
   "https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js",
   "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"
 ];

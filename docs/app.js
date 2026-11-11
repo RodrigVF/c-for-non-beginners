@@ -317,15 +317,12 @@
 
   var CFG = C.config || {};
   var APOIO = CFG.apoio || {};
-  var temApoio = !!(APOIO.link || APOIO.pix);
-
   function cartaoApoio() {
-    if (!temApoio) return "";
-    var html = '<div class="apoio"><span class="emoji" aria-hidden="true">💙</span><div><strong>Gostou? Apoie este material</strong>' +
-      "<p>" + esc(APOIO.texto || "") + '</p><div class="apoio-acoes">';
-    if (APOIO.link) html += '<a class="botao primario" href="' + esc(APOIO.link) + '" target="_blank" rel="noopener">' + esc(APOIO.rotulo_link || "Apoiar") + " ↗</a>";
-    if (APOIO.pix) html += '<button class="botao" type="button" id="btn-pix">Copiar chave Pix</button>';
-    return html + "</div></div></div>";
+    if (!APOIO.link) return "";
+    return '<div class="apoio"><span class="emoji" aria-hidden="true">💙</span><div><strong>Gostou do material?</strong>' +
+      "<p>" + esc(APOIO.texto || "") + '</p><div class="apoio-acoes">' +
+      '<a class="botao primario" href="' + esc(APOIO.link) + '" target="_blank" rel="noopener">' + esc(APOIO.rotulo_link || "Apoie o projeto") + " ↗</a>" +
+      "</div></div></div>";
   }
 
   function rodapeSite() {
@@ -334,15 +331,6 @@
       '<p><strong>Open-source.</strong> ' + esc(CFG.licenca || "") +
       ' <a href="' + esc(C.repo) + '" target="_blank" rel="noopener">Código no GitHub</a> · ' +
       '<a href="' + esc(C.repo + "/blob/main/CONTRIBUTING.md") + '" target="_blank" rel="noopener">Como contribuir</a></p></footer>';
-  }
-
-  function ligarRodapeSite() {
-    var b = el("btn-pix");
-    if (b) b.addEventListener("click", function () {
-      var ok = function () { b.textContent = "Chave copiada!"; setTimeout(function () { b.textContent = "Copiar chave Pix"; }, 2000); };
-      if (navigator.clipboard) navigator.clipboard.writeText(APOIO.pix).then(ok, function () { b.textContent = APOIO.pix; });
-      else b.textContent = APOIO.pix;
-    });
   }
 
   function cartao(href, emoji, titulo, sub) {
@@ -422,7 +410,6 @@
       main.innerHTML = caminho + corpo + rodape(id, t);
     }
     main.insertAdjacentHTML("beforeend", rodapeSite());
-    ligarRodapeSite();
     enfeitar(main, true, id === "" || (t && id === t.id));
     var chk = el("chk-feito");
     if (chk) chk.addEventListener("change", function () {
@@ -446,7 +433,6 @@
       esc(C.repo + "/blob/main/" + caminho) + '">ver no GitHub ↗</a></div>' +
       marked.parse(cerca + f.lang + "\n" + f.texto + "\n" + cerca) +
       '<p><a class="botao" href="javascript:history.back()">← Voltar</a></p>' + rodapeSite();
-    ligarRodapeSite();
     enfeitar(main, false);
     definirTitulo(nome);
     desenharAbas(t);

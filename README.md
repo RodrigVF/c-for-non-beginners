@@ -52,7 +52,7 @@ c-for-non-begginers/
 
 O site é **estático** (HTML, CSS e JavaScript, sem backend e sem framework). Ele tem abas por trilha, menu, busca, respostas escondidas até você tocar, marcação de "estudado" (guardada no seu navegador), tamanho de letra ajustável, tema escuro e funciona offline depois da primeira visita.
 
-O botão de apoio, o aviso de "não oficial" e o texto da licença que aparecem no rodapé do site ficam em [`site/config.json`](site/config.json). Preencha `apoio.link` (e/ou `apoio.pix`) para o botão aparecer; vazio, ele fica escondido.
+O botão "Apoie o projeto", o aviso de "não oficial" e o texto da licença que aparecem no rodapé do site ficam em [`site/config.json`](site/config.json). O botão do site só leva para a seção [Apoie o projeto](#apoie-o-projeto) deste README; as formas de apoio ficam aqui no GitHub.
 
 Depois de editar qualquer `.md` ou exemplo, gere o site e faça commit da pasta `docs/`:
 
@@ -76,6 +76,15 @@ rm -rf /tmp/cfnb-deploy && mkdir /tmp/cfnb-deploy
 cp -r docs vercel.json .vercel /tmp/cfnb-deploy/
 cd /tmp/cfnb-deploy && npx vercel deploy --prod
 ```
+
+## Apoie o projeto
+
+Este material é gratuito e open-source. Se ele te ajudou, você pode apoiar de várias formas:
+
+- ⭐ **Dê uma estrela** no repositório (botão *Star*, no topo desta página). Isso ajuda outras pessoas a encontrar o material.
+- 🤝 **Contribua** com correções, explicações melhores, exercícios ou trilhas novas. Veja o [CONTRIBUTING.md](CONTRIBUTING.md).
+- 🐛 **Avise sobre erros** abrindo uma [issue](https://github.com/RodrigVF/c-for-non-begginers/issues).
+- 📣 **Compartilhe** com quem está se preparando para a Piscine.
 
 ## Licença
 

@@ -1,9 +1,8 @@
 {
   "apoio": {
-    "link": "",
-    "rotulo_link": "Apoiar este projeto",
-    "pix": "",
-    "texto": "Este material é gratuito e open-source. Se ele te ajudou, considere apoiar: isso ajuda a manter o site no ar e a escrever novas trilhas."
+    "link": "https://github.com/RodrigVF/c-for-non-begginers#apoie-o-projeto",
+    "rotulo_link": "Apoie o projeto",
+    "texto": "Este material é gratuito e open-source. Se ele te ajudou, veja no GitHub como apoiar."
   },
   "aviso": "Material não oficial e independente, sem vínculo com a 42, a 42 São Paulo ou a 42 Network. Os exercícios são recriações no estilo da Piscine.",
   "licenca": "Código sob licença MIT e textos sob CC BY 4.0."
