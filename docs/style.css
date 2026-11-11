@@ -85,8 +85,8 @@ code, pre, kbd { font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", Me
   font: 700 15px/1 inherit;
 }
 .icone:hover { background: var(--fundo-2); color: var(--texto); }
-.marca { font-weight: 800; color: var(--texto); text-decoration: none; font-size: 18px; flex: none; padding: 0 4px; }
-.marca span { color: var(--destaque); padding: 0 1px; }
+.marca { font-weight: 800; color: var(--texto); text-decoration: none; font-size: 16.5px; letter-spacing: -0.02em; flex: none; padding: 0 4px; }
+.marca span { color: var(--destaque); }
 .titulo-topo {
   flex: 1; min-width: 0; font-size: 14px; color: var(--texto-2);
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
@@ -170,7 +170,7 @@ code, pre, kbd { font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", Me
 .conteudo {
   max-width: 700px; margin: 0 auto; padding: 18px 18px calc(56px + env(safe-area-inset-bottom));
   outline: none; overflow-wrap: break-word;
-  min-height: calc(100vh - 140px);
+  min-height: calc(100vh - 100px);
 }
 @media (min-width: 1000px) { .conteudo { margin-left: max(290px, calc(290px + (100vw - 290px - 700px) / 2)); padding: 36px 32px 80px; } }
 
@@ -358,25 +358,22 @@ code, pre, kbd { font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", Me
 .cartao strong { display: block; font-size: 15px; }
 .cartao small { display: block; color: var(--texto-2); font-size: 13px; line-height: 1.4; margin-top: 2px; }
 
-/* ---------- rodapé do site (fora do conteúdo) ---------- */
+/* ---------- rodapé do site: uma linha ---------- */
 .rodape-site {
   border-top: 1px solid var(--borda); background: var(--fundo-2);
-  color: var(--texto-2); font-size: 13.5px; line-height: 1.6;
+  color: var(--texto-3); font-size: 12.5px; line-height: 1.4;
   padding-bottom: env(safe-area-inset-bottom);
 }
-.rodape-dentro { max-width: 700px; margin: 0 auto; padding: 22px 18px 28px; }
-@media (min-width: 1000px) { .rodape-dentro { margin-left: max(290px, calc(290px + (100vw - 290px - 700px) / 2)); padding: 26px 32px 32px; } }
-.rodape-topo { display: flex; align-items: baseline; gap: 8px; margin-bottom: 12px; color: var(--texto); font-weight: 600; font-size: 14px; }
-.marca-rodape { font-weight: 800; font-size: 16px; }
-.marca-rodape span { color: var(--destaque); padding: 0 1px; }
-.rodape-links { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
-.rodape-links a {
-  display: inline-flex; align-items: center; min-height: 38px; padding: 7px 14px; border-radius: 999px;
-  border: 1px solid var(--borda); background: var(--cartao); color: var(--texto); text-decoration: none; font-weight: 600; font-size: 13.5px;
+.rodape-dentro {
+  max-width: 700px; margin: 0 auto; padding: 11px 18px;
+  display: flex; align-items: center; justify-content: center; gap: 8px; white-space: nowrap; overflow: hidden;
 }
-.rodape-links a.apoiar { background: var(--destaque); border-color: var(--destaque); color: #fff; }
-.rodape-site p { margin: 0 0 6px; }
-.rodape-site strong { color: var(--texto); }
+@media (min-width: 1000px) { .rodape-dentro { margin-left: max(290px, calc(290px + (100vw - 290px - 700px) / 2)); padding: 12px 32px; } }
+.rodape-site a { color: var(--texto-2); text-decoration: none; }
+.rodape-site a:hover { color: var(--texto); text-decoration: underline; }
+.rodape-site a.apoiar { color: var(--destaque); font-weight: 650; }
+.rodape-site .sep { color: var(--borda); }
+@media (max-width: 520px) { .so-largo { display: none; } }
 .selos { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
 .conteudo .selos a.chip { color: var(--texto-2); }
 
@@ -387,3 +384,5 @@ code, pre, kbd { font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", Me
 .hljs-comment { color: var(--c); font-style: italic; }
 .hljs-title, .hljs-title.function_ { color: var(--f); }
 .hljs-type, .hljs-meta, .hljs-variable, .hljs-attr { color: var(--t); }
+
+@media (max-width: 440px) { .titulo-topo { visibility: hidden; } }

@@ -1,6 +1,6 @@
 {
-  "name": "C para quem já programa",
-  "short_name": "C 42",
+  "name": "C4NonBegginers",
+  "short_name": "C4NonBegginers",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#ffffff",

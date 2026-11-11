@@ -317,19 +317,16 @@
 
   var CFG = C.config || {};
   var APOIO = CFG.apoio || {};
-  /* rodapé do site: fica fora do conteúdo da página e é desenhado uma vez */
+  /* rodapé do site: uma linha só, fora do conteúdo da página */
   function desenharRodapeSite() {
     var f = el("rodape");
     if (!f) return;
-    var links = "";
-    if (APOIO.link) links += '<a class="apoiar" href="' + esc(APOIO.link) + '" target="_blank" rel="noopener">💙 ' + esc(APOIO.rotulo_link || "Apoie o projeto") + "</a>";
-    links += '<a href="' + esc(C.repo) + '" target="_blank" rel="noopener">GitHub</a>' +
-      '<a href="' + esc(C.repo + "/blob/main/CONTRIBUTING.md") + '" target="_blank" rel="noopener">Como contribuir</a>';
-    f.innerHTML = '<div class="rodape-dentro">' +
-      '<div class="rodape-topo"><span class="marca-rodape">C<span>·</span>42</span><span>C para quem já programa</span></div>' +
-      '<nav class="rodape-links" aria-label="Links do projeto">' + links + "</nav>" +
-      '<p><strong>Não oficial.</strong> ' + esc(CFG.aviso || "") + "</p>" +
-      '<p><strong>Open-source.</strong> ' + esc(CFG.licenca || "") + "</p></div>";
+    var partes = [
+      '<span title="' + esc(CFG.aviso || "") + '">Não oficial<span class="so-largo">, sem vínculo com a 42</span></span>',
+      '<a href="' + esc(C.repo) + '" target="_blank" rel="noopener" title="' + esc(CFG.licenca || "") + '">Open-source<span class="so-largo"> (MIT · CC BY 4.0)</span></a>',
+    ];
+    if (APOIO.link) partes.push('<a class="apoiar" href="' + esc(APOIO.link) + '" target="_blank" rel="noopener">💙 ' + esc(APOIO.rotulo_link || "Apoie o projeto") + "</a>");
+    f.innerHTML = '<div class="rodape-dentro">' + partes.join('<span class="sep" aria-hidden="true">·</span>') + "</div>";
   }
 
   function cartao(href, emoji, titulo, sub) {
@@ -338,7 +335,7 @@
 
   /* página inicial do site: escolhe a trilha */
   function inicioSite() {
-    var html = '<div class="hero"><div class="caminho">Material de estudo</div>' +
+    var html = '<div class="hero"><div class="caminho">C4NonBegginers</div>' +
       "<h1>C para quem já programa</h1>" +
       "<p>O que é específico de C — sintaxe, memória e ponteiros — explicado para quem já sabe programar em outra linguagem.</p>" +
       '<div class="selos"><span class="chip">🆓 Gratuito</span><a class="chip" href="' + esc(C.repo) + '" target="_blank" rel="noopener">🔓 Open-source</a><span class="chip">⚠️ Não oficial</span></div></div>' +
@@ -453,7 +450,7 @@
 
   function definirTitulo(t) {
     var limpo = t.replace(/`/g, "");
-    document.title = limpo + " · C para quem já programa";
+    document.title = limpo + " · C4NonBegginers";
     el("titulo-topo").textContent = limpo;
   }
 
