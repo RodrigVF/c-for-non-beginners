@@ -94,7 +94,7 @@
     var html = '<details class="grupo" open><summary>Trilhas</summary>' +
       '<a class="item' + (atual === "" ? " atual" : "") + '" href="#/"><span>Início</span></a>';
     trilhas.forEach(function (x) {
-      html += '<a class="item' + (t && t.id === x.id && atual !== x.id ? " na-trilha" : "") + (atual === x.id ? " atual" : "") +
+      html += '<a class="item' + (t && t.id === x.id ? " na-trilha" : "") +
         '" href="#/' + esc(x.id) + '"><span>' + esc((x.emoji ? x.emoji + " " : "") + x.titulo) + "</span></a>";
     });
     html += "</details>";

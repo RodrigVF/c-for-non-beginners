@@ -218,6 +218,9 @@ def main():
         t = open(os.path.join(SITE, n), encoding="utf-8").read()
         t = t.replace("__VERSAO__", versao)
         open(os.path.join(SAIDA, n), "w", encoding="utf-8").write(t)
+    for n in sorted(os.listdir(SITE)):
+        if n.endswith(".png"):
+            shutil.copy(os.path.join(SITE, n), os.path.join(SAIDA, n))
     open(os.path.join(SAIDA, ".nojekyll"), "w").close()
     print("site gerado em docs/ (versao %s): %d trilha(s), %d paginas, %d arquivos de codigo"
           % (versao, len(trilhas), len(saida), len(codigos)))
