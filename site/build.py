@@ -14,7 +14,7 @@ RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SITE = os.path.join(RAIZ, "site")
 SAIDA = os.path.join(RAIZ, "docs")
 REPO = "https://github.com/RodrigVF/c-for-non-begginers"
-IGNORAR = {".git", "docs", "site"}
+IGNORAR = {".git", "docs", "site", ".vercel", "node_modules"}
 EXT_CODIGO = {".c": "c", ".h": "c", ".sh": "bash", ".py": "python",
               ".txt": "plaintext", ".json": "json"}
 
@@ -22,7 +22,7 @@ EXT_CODIGO = {".c": "c", ".h": "c", ".sh": "bash", ".py": "python",
 def arquivos():
     for pasta, dirs, nomes in os.walk(RAIZ):
         dirs[:] = sorted(d for d in dirs if d not in IGNORAR)
-        for n in sorted(nomes):
+        for n in sorted(x for x in nomes if not x.startswith(".env")):
             yield os.path.relpath(os.path.join(pasta, n), RAIZ)
 
 

@@ -5,12 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>C para quem já programa</title>
 <meta name="description" content="Aulas curtas, exemplos e exercícios de C e shell para preparar a Piscine da 42 São Paulo.">
-<meta name="theme-color" content="#1f6feb">
+<meta name="theme-color" content="#fbfaf7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#121418" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="manifest" href="manifest.webmanifest">
-<link rel="stylesheet" href="style.css?v=f76cecc465">
+<link rel="stylesheet" href="style.css?v=607c83cc07">
 <script>
-try { var t = localStorage.getItem("cfnb-tema"); if (t) document.documentElement.setAttribute("data-theme", t); } catch (e) {}
+try {
+  var t = localStorage.getItem("cfnb-tema"); if (t) document.documentElement.setAttribute("data-theme", t);
+  var f = localStorage.getItem("cfnb-fonte"); if (f) document.documentElement.setAttribute("data-fonte", f);
+} catch (e) {}
 </script>
 </head>
 <body>
@@ -20,9 +24,11 @@ try { var t = localStorage.getItem("cfnb-tema"); if (t) document.documentElement
   </button>
   <a href="#/" class="marca">C<span>·</span>42</a>
   <span id="titulo-topo" class="titulo-topo"></span>
+  <button id="btn-fonte" class="icone" aria-label="Mudar tamanho da letra">Aa</button>
   <button id="btn-tema" class="icone" aria-label="Alternar tema claro/escuro">
     <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z" fill="currentColor"/></svg>
   </button>
+  <div id="progresso" class="progresso"></div>
 </header>
 <div id="fundo" class="fundo" hidden></div>
 <nav id="menu" class="menu" aria-label="Conteúdo">
@@ -35,7 +41,7 @@ try { var t = localStorage.getItem("cfnb-tema"); if (t) document.documentElement
 <main id="conteudo" class="conteudo" tabindex="-1"></main>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<script src="conteudo.js?v=f76cecc465"></script>
-<script src="app.js?v=f76cecc465"></script>
+<script src="conteudo.js?v=607c83cc07"></script>
+<script src="app.js?v=607c83cc07"></script>
 </body>
 </html>
