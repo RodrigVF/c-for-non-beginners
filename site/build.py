@@ -15,7 +15,7 @@ import shutil
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SITE = os.path.join(RAIZ, "site")
 SAIDA = os.path.join(RAIZ, "docs")
-REPO = "https://github.com/RodrigVF/c-for-non-begginers"
+REPO = "https://github.com/RodrigVF/c-for-non-beginners"
 IGNORAR = {".git", "docs", "site", ".vercel", "node_modules"}
 EXT_CODIGO = {".c": "c", ".h": "c", ".sh": "bash", ".py": "python",
               ".txt": "plaintext", ".json": "json"}

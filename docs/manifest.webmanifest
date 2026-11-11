@@ -1,6 +1,6 @@
 {
-  "name": "C4NonBegginers",
-  "short_name": "C4NonBegginers",
+  "name": "C4NonBeginners",
+  "short_name": "C4NonBeginners",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#fbfaf7",

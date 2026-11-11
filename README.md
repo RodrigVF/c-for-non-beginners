@@ -1,8 +1,8 @@
-# c-for-non-begginers — C para quem já programa
+# c-for-non-beginners — C para quem já programa
 
 Material de estudo de C (e shell) para quem **já programa** em outra linguagem. O foco é o que é específico de C: sintaxe, o motivo de ela ser assim e como a memória funciona. Lógica de programação não é explicada.
 
-📱 **Site para estudar no celular:** https://c-for-non-begginers.vercel.app
+📱 **Site para estudar no celular:** https://c-for-non-beginners.vercel.app
 
 > ⚠️ **Não oficial.** Este é um projeto independente, sem vínculo com a 42, a 42 São Paulo ou a 42 Network. Os exercícios são recriações no estilo da Piscine, não os subjects oficiais.
 >
@@ -19,7 +19,7 @@ O conteúdo é organizado em **trilhas**. Cada trilha é uma pasta na raiz do re
 ## Estrutura
 
 ```
-c-for-non-begginers/
+c-for-non-beginners/
 ├── README.md         ← você está aqui
 ├── piscine-42/       ← trilha "Preparação Piscine 42" (tem o próprio README)
 ├── site/             ← código do site e o gerador (build.py)
@@ -83,7 +83,7 @@ Este material é gratuito e open-source. Se ele te ajudou, você pode apoiar de 
 
 - ⭐ **Dê uma estrela** no repositório (botão *Star*, no topo desta página). Isso ajuda outras pessoas a encontrar o material.
 - 🤝 **Contribua** com correções, explicações melhores, exercícios ou trilhas novas. Veja o [CONTRIBUTING.md](CONTRIBUTING.md).
-- 🐛 **Avise sobre erros** abrindo uma [issue](https://github.com/RodrigVF/c-for-non-begginers/issues).
+- 🐛 **Avise sobre erros** abrindo uma [issue](https://github.com/RodrigVF/c-for-non-beginners/issues).
 - 📣 **Compartilhe** com quem está se preparando para a Piscine.
 
 ## Licença

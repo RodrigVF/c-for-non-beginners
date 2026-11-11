@@ -335,7 +335,7 @@
 
   /* página inicial do site: escolhe a trilha */
   function inicioSite() {
-    var html = '<div class="hero"><div class="caminho">C4NonBegginers</div>' +
+    var html = '<div class="hero"><div class="caminho">C4NonBeginners</div>' +
       "<h1>C para quem já programa</h1>" +
       "<p>O que é específico de C — sintaxe, memória e ponteiros — explicado para quem já sabe programar em outra linguagem.</p>" +
       '<div class="selos"><span class="chip">🆓 Gratuito</span><a class="chip" href="' + esc(C.repo) + '" target="_blank" rel="noopener">🔓 Open-source</a><span class="chip">⚠️ Não oficial</span></div></div>' +
@@ -450,7 +450,7 @@
 
   function definirTitulo(t) {
     var limpo = t.replace(/`/g, "");
-    document.title = limpo + " · C4NonBegginers";
+    document.title = limpo + " · C4NonBeginners";
     el("titulo-topo").textContent = limpo;
   }
 
