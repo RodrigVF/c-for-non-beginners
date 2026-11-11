@@ -57,8 +57,13 @@ Para ver localmente:
 python3 -m http.server 8000 --directory docs
 ```
 
-**Vercel:** o [`vercel.json`](vercel.json) diz que não há framework e que os arquivos prontos estão em `docs/`. Se o repositório estiver conectado à Vercel (Settings → Git), cada push publica sozinho. Sem a conexão, publique com:
+**Vercel:** o [`vercel.json`](vercel.json) diz que não há framework e que os arquivos prontos estão em `docs/`. Para cada push publicar sozinho, conecte o repositório na Vercel (Settings → Git).
+
+Se um deploy aparecer como **Blocked** com a mensagem *"the commit author doesn't have permission"*, a Vercel não reconheceu o email dos commits como seu. Para resolver de vez, conecte a sua conta do GitHub à Vercel (Account Settings → Authentication). Enquanto isso, dá para publicar o site pronto a partir de uma pasta sem git:
 
 ```bash
-npx vercel deploy --prod
+python3 site/build.py
+rm -rf /tmp/cfnb-deploy && mkdir /tmp/cfnb-deploy
+cp -r docs vercel.json .vercel /tmp/cfnb-deploy/
+cd /tmp/cfnb-deploy && npx vercel deploy --prod
 ```
