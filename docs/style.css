@@ -136,9 +136,39 @@ code, pre, kbd { font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", Me
   #btn-menu { display: none; }
 }
 
+/* ---------- abas (trilhas) ---------- */
+.abas {
+  display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none;
+  max-width: 700px; margin: 0 auto; padding: 14px 18px 0;
+}
+.abas::-webkit-scrollbar { display: none; }
+.aba {
+  flex: none; display: inline-flex; align-items: center; gap: 4px; min-height: 38px; padding: 7px 14px;
+  border-radius: 999px; border: 1px solid var(--borda); background: var(--cartao);
+  color: var(--texto-2); text-decoration: none; font-size: 14px; font-weight: 600; white-space: nowrap;
+}
+.aba.ativa { background: var(--texto); border-color: var(--texto); color: var(--fundo); }
+@media (min-width: 1000px) { .abas { margin-left: max(290px, calc(290px + (100vw - 290px - 700px) / 2)); padding: 22px 32px 0; } }
+.menu a.item.na-trilha { font-weight: 600; }
+.de-trilha { display: block; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--texto-3); }
+
+/* cartões de trilha na página inicial */
+.conteudo .titulo-secao { margin-top: 0.6em; }
+.trilhas { display: grid; gap: 12px; margin: 0 0 32px; }
+.conteudo a.trilha, .trilha {
+  display: block; padding: 18px; border-radius: 18px; border: 1px solid var(--borda); background: var(--cartao);
+  color: var(--texto); box-shadow: var(--sombra);
+}
+.trilha .emoji { font-size: 28px; display: block; margin-bottom: 6px; }
+.trilha strong { display: block; font-size: 1.1rem; margin-bottom: 2px; }
+.trilha small { display: block; color: var(--texto-2); font-size: 14px; line-height: 1.45; }
+.trilha .trilho { margin: 14px 0 6px; }
+.trilha .progresso-txt { font-size: 13px; color: var(--texto-3); }
+.trilha.em-breve { border-style: dashed; box-shadow: none; background: transparent; opacity: 0.8; }
+
 /* ---------- conteúdo ---------- */
 .conteudo {
-  max-width: 700px; margin: 0 auto; padding: 22px 18px calc(56px + env(safe-area-inset-bottom));
+  max-width: 700px; margin: 0 auto; padding: 18px 18px calc(56px + env(safe-area-inset-bottom));
   outline: none; overflow-wrap: break-word;
 }
 @media (min-width: 1000px) { .conteudo { margin-left: max(290px, calc(290px + (100vw - 290px - 700px) / 2)); padding: 36px 32px 80px; } }

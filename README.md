@@ -1,172 +1,64 @@
-# c-for-non-begginers — C e shell para quem já programa (preparação para a Piscine da 42SP)
+# c-for-non-begginers — C para quem já programa
 
-Repositório de estudo para quem **já programa** em outra linguagem e **nunca escreveu C**. Não explica lógica de programação: foca no que é específico de C (sintaxe, por que ela é assim, e como a memória funciona) e no shell.
+Material de estudo de C (e shell) para quem **já programa** em outra linguagem. O foco é o que é específico de C: sintaxe, o motivo de ela ser assim e como a memória funciona. Lógica de programação não é explicada.
 
-**📱 Versão web (para estudar no celular):** as aulas, exercícios e respostas também estão num site estático em [`docs/`](docs/), gerado a partir destes arquivos. Veja [O site](#o-site) no fim.
+📱 **Site para estudar no celular:** https://c-for-non-begginers.vercel.app
 
-## A Piscine, em poucas linhas
+## Trilhas
 
-A Piscine é a imersão de seleção da 42: cerca de 4 semanas com projetos diários em C e shell, correção automática (a **Moulinette**), correção por pares (*peer evaluation*), exames e *rushes* em grupo. Não há professores: o aprendizado acontece entre colegas.
+O conteúdo é organizado em **trilhas**. Cada trilha é uma pasta na raiz do repositório e vira uma **aba** no site.
 
-Datas, duração exata, regras de exame, o que é permitido levar e outros detalhes **variam por campus e edição. Confirme com a 42SP.**
-
-> ⚠️ Os exercícios deste repositório são **recriações no estilo da Piscine**, escritas para treino. Não são os subjects oficiais.
+| Trilha | Pasta | Conteúdo |
+|---|---|---|
+| Preparação Piscine 42 | [`piscine-42/`](piscine-42/) | 13 aulas, exercícios no estilo da Piscine da 42SP, 3 simulados, respostas comentadas e testes automáticos (`run.sh`) |
 
 ## Estrutura
 
 ```
 c-for-non-begginers/
-├── README.md            ← você está aqui (plano de 7 dias no fim)
-├── run.sh               ← compila e testa um exercício pelo nome
-├── 01-exemplos/         ← 13 aulas curtas, cada uma com código que roda
-├── 02-exercicios/       ← enunciados no formato subject (sem resposta)
-├── 03-respostas/        ← soluções na Norma + explicação detalhada
-├── testes/              ← main.c e saída esperada de cada exercício
-├── minha-versao/        ← onde VOCÊ escreve as suas soluções
-├── ferramentas/         ← gerador do cabeçalho da 42
-├── site/                ← código do site e gerador (build.py)
-├── docs/                ← site pronto (gerado; não edite à mão)
-└── .vscode/             ← configuração do editor (tabs, régua de 80 colunas)
+├── README.md         ← você está aqui
+├── piscine-42/       ← trilha "Preparação Piscine 42" (tem o próprio README)
+├── site/             ← código do site e o gerador (build.py)
+├── docs/             ← site pronto, gerado (não edite à mão)
+├── vercel.json       ← configuração da Vercel
+└── .vscode/          ← configuração do editor (tabs, régua de 80 colunas)
 ```
 
-## Preparando o ambiente (Ubuntu no WSL)
+## Como adicionar uma trilha nova
 
-```bash
-sudo apt update
-sudo apt install build-essential valgrind manpages-dev git
+1. Crie uma pasta na raiz, por exemplo `ponteiros-avancados/`.
+2. Dentro dela, crie um `trilha.json`:
+
+```json
+{
+  "titulo": "Ponteiros avançados",
+  "curto": "Ponteiros",
+  "emoji": "🧭",
+  "descricao": "Uma frase sobre a trilha."
+}
 ```
 
-- `build-essential` traz o `cc` e o `make`.
-- `valgrind` encontra leaks (aula 09).
-- `manpages-dev` traz as seções 2 e 3 do `man` (`man 2 write`, `man 3 malloc`).
-
-**Norminette** (o verificador da Norma, feito pela 42 e distribuído como pacote Python):
-
-```bash
-sudo apt install pipx
-pipx install norminette
-pipx ensurepath
-```
-
-Feche e abra o terminal, e confira com `norminette --version`.
-
-**VS Code:** instale a extensão **WSL** no Windows, entre na pasta pelo terminal do Ubuntu e rode `code .`. A pasta [`.vscode/`](.vscode/settings.json) já configura tabs de largura 4 (sem espaços) e uma régua na coluna 80.
-
-> 💡 Guarde seus arquivos **dentro do Linux** (`~/...`), não em `/mnt/c/...`. No disco do Windows, as permissões de arquivo não funcionam direito, e o shell00 depende delas.
-
-## Como usar
-
-1. Leia uma aula em [`01-exemplos/`](01-exemplos/), compile e rode os exemplos.
-2. Faça os exercícios correspondentes de [`02-exercicios/`](02-exercicios/), escrevendo em `minha-versao/` (por exemplo, `minha-versao/c00/ex00/ft_putchar.c`).
-3. Coloque o cabeçalho: `python3 ferramentas/cabecalho.py minha-versao/c00/ex00/ft_putchar.c`
-4. Teste:
-
-```bash
-./run.sh ft_putchar
-```
-
-```
-== ft_putchar
-  arquivo: minha-versao/c00/ex00/ft_putchar.c
-  OK    compilacao com -Wall -Wextra -Werror
-  OK    saida igual a esperada
-  OK    Norma (norminette)
-```
-
-5. Depois de passar (ou de travar por uns 20 minutos), leia a resposta em [`03-respostas/`](03-respostas/). Mesmo acertando, leia: as seções de "erros comuns" e "casos extremos" valem muito.
-
-Outros comandos:
-
-```bash
-./run.sh --lista                  # exercícios disponíveis
-./run.sh ft_putnbr --resposta     # testa a resposta oficial deste repositório
-./testes/rodar_todos.sh           # testa tudo o que você já fez
-```
-
-## A Norma, resumida (como este repositório a aplica)
-
-Todo o código daqui segue estas regras e passa na `norminette`:
-
-| Regra | Exemplo |
-|---|---|
-| Indentação com **tab** (largura 4); tab entre tipo e nome | `int	main(void)` |
-| Máximo de 25 linhas por função, 80 colunas por linha | |
-| Máximo de 4 parâmetros por função e 5 funções por arquivo | |
-| Variáveis no início da função, uma por linha, sem inicializar na declaração, seguidas de uma linha em branco | `int	i;` ↵ ↵ `i = 0;` |
-| Proibidos: `for`, `do...while`, `switch`, `goto`, ternário `? :` | só `while` |
-| Sem comentários **dentro** das funções | |
-| `return` com parênteses | `return (0);` |
-| Prefixo `ft_` e arquivo com o nome da função | `ft_putnbr.c` |
-| Cabeçalho da 42 no topo de cada arquivo | [`ferramentas/`](ferramentas/) |
-| Compilar sempre com `cc -Wall -Wextra -Werror` | |
-| Sem `printf` nas funções de exercício: use `write` | `printf` só nos `main.c` de teste |
-
-A Norma completa tem mais regras. A `norminette` é a referência: se ela aceitou, está na Norma.
-
-## Plano de 7 dias
-
-Ritmo pensado para **3 a 5 horas por dia**. Se um dia atrasar, não pule: as aulas dependem umas das outras. Os dias 6 e 7 têm folga para recuperar.
-
-### Dia 1 — O programa, a compilação e o terminal
-- Aulas: [01 Anatomia](01-exemplos/01-anatomia/), [02 Compilação](01-exemplos/02-compilacao/), [03 Tipos](01-exemplos/03-tipos/), [11 Shell](01-exemplos/11-shell/)
-- Exercícios: shell00 ex00, ex01, ex02 · c00 ex00 (`ft_putchar`), ex01, ex02
-- Meta: compilar sem pensar nas flags e navegar no terminal sem mouse.
-
-### Dia 2 — Controle de fluxo, funções e git
-- Aulas: [04 Operadores](01-exemplos/04-operadores/), [05 if/while](01-exemplos/05-if-while/), [06 Funções](01-exemplos/06-funcoes/), [12 Git](01-exemplos/12-git/)
-- Exercícios: c00 ex03 (`ft_is_negative`), ex04 (`ft_putstr`), ex05 (`ft_strlen`) · shell00 ex03, ex04
-- Extra: monte o simulado de git da aula 12 e entregue o c00 nele, com `ex00/`, `ex01/`...
-
-### Dia 3 — Strings e erros
-- Aulas: [07 Arrays e strings](01-exemplos/07-arrays-strings/), [13 Erros](01-exemplos/13-erros/), [10 Recursão](01-exemplos/10-recursao/) (curta; o `ft_putnbr` precisa dela)
-- Exercícios: c00 ex06 (`ft_putnbr`, com INT_MIN) · c02 ex00 (`ft_strcpy`), ex03 (`ft_str_is_numeric`)
-- Meta: entender por que toda função de string é "anda até o `'\0'`".
-
-### Dia 4 — Ponteiros (o dia mais importante)
-- Aula: [08 Ponteiros](01-exemplos/08-ponteiros/) (leia duas vezes, desenhe no papel)
-- Exercícios: c01 inteiro (`ft_swap`, `ft_div_mod`, `ft_ultimate_div_mod`) · c02 ex01 (`ft_strcmp`), ex02 (`ft_strrev`), ex04 (`ft_strcat`)
-
-### Dia 5 — Memória dinâmica + primeiro exame
-- Aula: [09 malloc/free/valgrind](01-exemplos/09-malloc/)
-- Exercícios: c03 inteiro (`ft_strdup`, `ft_range`, `ft_strjoin`)
-- Simulação: [Exame 01](02-exercicios/exames/exame-01.md) (30 min, sem consulta)
-
-### Dia 6 — Recursão + segundo exame
-- Releia a aula [10 Recursão](01-exemplos/10-recursao/) (lida no dia 3)
-- Exercícios: c04 inteiro (`ft_factorial`, `ft_power`)
-- Simulação: [Exame 02](02-exercicios/exames/exame-02.md) (40 min)
-- Refaça, do zero e sem olhar, os exercícios em que você errou até agora.
-
-### Dia 7 — Último exame e revisão
-- Simulação: [Exame 03](02-exercicios/exames/exame-03.md) (45 min)
-- Refaça de memória, em arquivos novos: `ft_putnbr`, `ft_strcmp`, `ft_strdup`, `ft_strjoin`, `ft_atoi`.
-- Responda de novo as **perguntas de fixação** de todas as aulas, sem abrir as respostas.
-- Rode `./testes/rodar_todos.sh` e deixe tudo verde.
-
-## Dicas para a Piscine em si
-
-- **Leia o subject inteiro.** Nome de arquivo, pasta e protótipo errados reprovam código correto.
-- **Teste com seu próprio `main.c`**, com casos extremos, antes de entregar. Nunca entregue o `main.c`.
-- **Rode a `norminette`** antes de cada push.
-- **Pergunte aos colegas e explique para eles.** Explicar ponteiros para alguém é a melhor forma de aprender ponteiros.
-- `man` é seu amigo: `man 2 write`, `man 3 malloc`, `man ascii`.
+3. Escreva um `README.md` (a página inicial da trilha) e organize o resto em subpastas, cada uma com o seu `README.md`. Exemplos de código (`.c`, `.h`, `.sh`) ao lado dos textos aparecem no site com realce de sintaxe.
+4. Gere o site de novo (veja abaixo). A trilha aparece como uma aba nova, com o menu montado a partir das pastas, em ordem alfabética (use prefixos como `01-`, `02-` para controlar a ordem).
 
 ## O site
 
-O site é **estático** (HTML, CSS e JavaScript, sem backend e sem framework). Ele tem menu, busca, respostas escondidas até você tocar, marcação de "estudado" (guardada no seu navegador), tema escuro e funciona offline depois da primeira visita.
+O site é **estático** (HTML, CSS e JavaScript, sem backend e sem framework). Ele tem abas por trilha, menu, busca, respostas escondidas até você tocar, marcação de "estudado" (guardada no seu navegador), tamanho de letra ajustável, tema escuro e funciona offline depois da primeira visita.
 
-- O código fica em [`site/`](site/). O resultado vai para `docs/`.
-- Depois de editar qualquer `.md` ou exemplo, gere de novo e faça commit da pasta `docs/`:
+Depois de editar qualquer `.md` ou exemplo, gere o site e faça commit da pasta `docs/`:
 
 ```bash
 python3 site/build.py
 ```
 
-- Para ver localmente:
+Para ver localmente:
 
 ```bash
 python3 -m http.server 8000 --directory docs
 ```
 
-**Publicar na Vercel:** importe o repositório. O [`vercel.json`](vercel.json) já diz que não há framework e que os arquivos prontos estão em `docs/`. Se a Vercel pedir, use *Framework Preset* = **Other**, *Build Command* vazio e *Output Directory* = `docs`.
+**Vercel:** o [`vercel.json`](vercel.json) diz que não há framework e que os arquivos prontos estão em `docs/`. Se o repositório estiver conectado à Vercel (Settings → Git), cada push publica sozinho. Sem a conexão, publique com:
 
+```bash
+npx vercel deploy --prod
+```

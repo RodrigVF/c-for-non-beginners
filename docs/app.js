@@ -17,22 +17,50 @@
   function gravar(chave, valor) {
     try { localStorage.setItem(chave, JSON.stringify(valor)); } catch (e) { /* sem storage: tudo bem */ }
   }
-  var feitos = ler("cfnb-feitos", {});
 
-  var ordem = [];
-  var grupoDe = {};
-  C.nav.forEach(function (g) {
-    g.itens.forEach(function (it) {
-      if (ordem.indexOf(it.id) < 0) ordem.push(it.id);
-      if (!(it.id in grupoDe)) grupoDe[it.id] = g.grupo;
+  /* ---------- trilhas ---------- */
+  var trilhas = C.trilhas;
+  var porId = {};
+  trilhas.forEach(function (t) {
+    porId[t.id] = t;
+    t.ordem = [];
+    t.grupoDe = {};
+    t.nav.forEach(function (g) {
+      g.itens.forEach(function (it) {
+        if (t.ordem.indexOf(it.id) < 0) t.ordem.push(it.id);
+        if (!(it.id in t.grupoDe)) t.grupoDe[it.id] = g.grupo;
+      });
     });
+    t.aulas = t.ordem.filter(function (id) { return /\/01-exemplos\/\d\d-/.test(id); });
   });
-  var aulas = ordem.filter(function (id) { return /^01-exemplos\/\d\d-/.test(id); });
+  var PADRAO = trilhas.length ? trilhas[0].id : "";
+
+  function trilhaDe(id) {
+    if (C.paginas[id]) return porId[C.paginas[id].trilha] || null;
+    return porId[String(id).split("/")[0]] || null;
+  }
+
+  /* migra o progresso salvo antes das abas existirem (ids sem o prefixo da trilha) */
+  var feitos = ler("cfnb-feitos", {});
+  (function () {
+    var mudou = false;
+    Object.keys(feitos).forEach(function (k) {
+      if (C.paginas[k] && k !== "") return;
+      var novo = k === "" ? PADRAO : PADRAO + "/" + k;
+      if (C.paginas[novo]) { feitos[novo] = feitos[k]; }
+      delete feitos[k];
+      mudou = true;
+    });
+    if (mudou) gravar("cfnb-feitos", feitos);
+  })();
 
   function tituloNav(id) {
-    for (var i = 0; i < C.nav.length; i++)
-      for (var j = 0; j < C.nav[i].itens.length; j++)
-        if (C.nav[i].itens[j].id === id) return C.nav[i].itens[j].titulo;
+    var t = trilhaDe(id);
+    if (t) {
+      for (var i = 0; i < t.nav.length; i++)
+        for (var j = 0; j < t.nav[i].itens.length; j++)
+          if (t.nav[i].itens[j].id === id) return t.nav[i].itens[j].titulo;
+    }
     return C.paginas[id] ? C.paginas[id].titulo.replace(/`/g, "") : id;
   }
 
@@ -42,7 +70,16 @@
     });
   }
 
-  /* ---------- menu ---------- */
+  /* ---------- abas e menu ---------- */
+  function desenharAbas(t) {
+    var html = '<a class="aba' + (!t ? " ativa" : "") + '" href="#/">Início</a>';
+    trilhas.forEach(function (x) {
+      html += '<a class="aba' + (t && t.id === x.id ? " ativa" : "") + '" href="#/' + esc(x.id) + '">' +
+        (x.emoji ? '<span aria-hidden="true">' + esc(x.emoji) + "</span> " : "") + esc(x.titulo) + "</a>";
+    });
+    el("abas").innerHTML = html;
+  }
+
   function abrirMenu(abrir) {
     menu.classList.toggle("aberto", abrir);
     fundo.hidden = !abrir;
@@ -53,19 +90,27 @@
   fundo.addEventListener("click", function () { abrirMenu(false); });
   document.addEventListener("keydown", function (e) { if (e.key === "Escape") abrirMenu(false); });
 
-  function desenharMenu(atual) {
-    var html = "";
-    C.nav.forEach(function (g) {
-      var temAtual = g.itens.some(function (it) { return it.id === atual; });
-      var aberto = !g.fechado || temAtual;
-      html += '<details class="grupo"' + (aberto ? " open" : "") + "><summary>" + esc(g.grupo) + "</summary>";
-      g.itens.forEach(function (it) {
-        html += '<a class="item' + (it.id === atual ? " atual" : "") + '" href="#/' + esc(it.id) + '">' +
-          "<span>" + esc(it.titulo) + "</span>" +
-          (feitos[it.id] ? '<span class="feito" aria-label="estudado">✓</span>' : "") + "</a>";
-      });
-      html += "</details>";
+  function desenharMenu(atual, t) {
+    var html = '<details class="grupo" open><summary>Trilhas</summary>' +
+      '<a class="item' + (atual === "" ? " atual" : "") + '" href="#/"><span>Início</span></a>';
+    trilhas.forEach(function (x) {
+      html += '<a class="item' + (t && t.id === x.id && atual !== x.id ? " na-trilha" : "") + (atual === x.id ? " atual" : "") +
+        '" href="#/' + esc(x.id) + '"><span>' + esc((x.emoji ? x.emoji + " " : "") + x.titulo) + "</span></a>";
     });
+    html += "</details>";
+    if (t) {
+      t.nav.forEach(function (g) {
+        var temAtual = g.itens.some(function (it) { return it.id === atual; });
+        var aberto = !g.fechado || temAtual;
+        html += '<details class="grupo"' + (aberto ? " open" : "") + "><summary>" + esc(g.grupo) + "</summary>";
+        g.itens.forEach(function (it) {
+          html += '<a class="item' + (it.id === atual ? " atual" : "") + '" href="#/' + esc(it.id) + '">' +
+            "<span>" + esc(it.titulo) + "</span>" +
+            (feitos[it.id] ? '<span class="feito" aria-label="estudado">✓</span>' : "") + "</a>";
+        });
+        html += "</details>";
+      });
+    }
     el("arvore").innerHTML = html;
     var a = el("arvore").querySelector(".atual");
     if (a && a.scrollIntoView && window.innerWidth >= 1000) a.scrollIntoView({ block: "nearest" });
@@ -254,7 +299,9 @@
     linksExternos(raiz);
   }
 
-  function rodape(id) {
+  function rodape(id, t) {
+    if (!t) return "";
+    var ordem = t.ordem;
     var i = ordem.indexOf(id);
     var html = '<div class="rodape-pagina">';
     if (i >= 0) {
@@ -268,84 +315,122 @@
     return html + "</div>";
   }
 
-  function inicio() {
-    var feitas = aulas.filter(function (id) { return feitos[id]; }).length;
-    var total = ordem.filter(function (id) { return id !== ""; });
+  function cartao(href, emoji, titulo, sub) {
+    return '<a class="cartao" href="' + href + '"><span class="emoji">' + emoji + "</span><strong>" + esc(titulo) + "</strong><small>" + esc(sub) + "</small></a>";
+  }
+
+  /* página inicial do site: escolhe a trilha */
+  function inicioSite() {
+    var html = '<div class="hero"><div class="caminho">Material de estudo</div>' +
+      "<h1>C para quem já programa</h1>" +
+      "<p>O que é específico de C — sintaxe, memória e ponteiros — explicado para quem já sabe programar em outra linguagem.</p></div>" +
+      '<h2 class="titulo-secao">Trilhas</h2><div class="trilhas">';
+    trilhas.forEach(function (t) {
+      var total = t.ordem.length;
+      var feitas = t.ordem.filter(function (id) { return feitos[id]; }).length;
+      html += '<a class="trilha" href="#/' + esc(t.id) + '"><span class="emoji">' + esc(t.emoji || "📘") + "</span>" +
+        "<strong>" + esc(t.titulo) + "</strong><small>" + esc(t.descricao || "") + "</small>" +
+        '<div class="trilho"><span style="width:' + Math.round((feitas / Math.max(1, total)) * 100) + '%"></span></div>' +
+        '<small class="progresso-txt">' + feitas + " de " + total + " páginas estudadas</small></a>";
+    });
+    return html + '<div class="trilha em-breve"><span class="emoji">🧩</span><strong>Mais conceitos de C</strong><small>Novas trilhas em breve.</small></div></div>';
+  }
+
+  /* página inicial de uma trilha com aulas: progresso e atalhos */
+  function inicioTrilha(t) {
+    var feitas = t.aulas.filter(function (id) { return feitos[id]; }).length;
+    var total = t.ordem.filter(function (id) { return id !== t.id; });
     var estudadas = total.filter(function (id) { return feitos[id]; }).length;
-    var proxima = aulas.filter(function (id) { return !feitos[id]; })[0];
+    var proxima = t.aulas.filter(function (id) { return !feitos[id]; })[0];
+    var p = t.id + "/";
     var botao = proxima
       ? '<a class="botao primario" href="#/' + esc(proxima) + '">' + (feitas ? "Continuar: " : "Começar: ") + esc(tituloNav(proxima)) + " →</a>"
-      : '<a class="botao primario" href="#/02-exercicios/exames">Todas as aulas feitas! Ir para os exames →</a>';
-    var cartao = function (href, emoji, titulo, sub) {
-      return '<a class="cartao" href="' + href + '"><span class="emoji">' + emoji + "</span><strong>" + titulo + "</strong><small>" + sub + "</small></a>";
-    };
-    return '<div class="hero"><div class="caminho">Preparação para a Piscine da 42SP</div>' +
-      "<h1>C para quem já programa</h1>" +
-      "<p>Aulas curtas sobre o que é específico de C — sintaxe, memória e ponteiros — mais shell, exercícios no estilo da Piscine e respostas comentadas.</p></div>" +
-      '<div class="painel"><div class="linha"><span>Aulas estudadas</span><strong>' + feitas + " de " + aulas.length + "</strong></div>" +
-      '<div class="trilho"><span style="width:' + Math.round((feitas / aulas.length) * 100) + '%"></span></div>' +
-      botao + '<div class="linha" style="margin:10px 0 0"><span>Páginas marcadas no total</span><span>' + estudadas + " de " + total.length + "</span></div></div>" +
+      : '<a class="botao primario" href="#/' + p + '02-exercicios/exames">Todas as aulas feitas! Ir para os exames →</a>';
+    return '<div class="hero"><div class="caminho">' + esc(t.emoji ? t.emoji + " " : "") + "Trilha</div>" +
+      "<h1>" + esc(t.titulo) + "</h1><p>" + esc(t.descricao || "") + "</p></div>" +
+      '<div class="painel"><div class="linha"><span>Aulas estudadas</span><strong>' + feitas + " de " + t.aulas.length + "</strong></div>" +
+      '<div class="trilho"><span style="width:' + Math.round((feitas / Math.max(1, t.aulas.length)) * 100) + '%"></span></div>' +
+      botao + '<div class="linha" style="margin:10px 0 0"><span>Páginas marcadas nesta trilha</span><span>' + estudadas + " de " + total.length + "</span></div></div>" +
       '<div class="cartoes">' +
-      cartao("#/01-exemplos", "📘", "Aulas", "13 aulas de 5 a 10 min") +
-      cartao("#/02-exercicios", "🛠️", "Exercícios", "6 módulos no estilo subject") +
-      cartao("#/02-exercicios/exames", "⏱️", "Exames", "3 simulados cronometrados") +
-      cartao("#/03-respostas", "✅", "Respostas", "Soluções explicadas") +
+      cartao("#/" + p + "01-exemplos", "📘", "Aulas", t.aulas.length + " aulas de 5 a 10 min") +
+      cartao("#/" + p + "02-exercicios", "🛠️", "Exercícios", "Módulos no estilo subject") +
+      cartao("#/" + p + "02-exercicios/exames", "⏱️", "Exames", "Simulados cronometrados") +
+      cartao("#/" + p + "03-respostas", "✅", "Respostas", "Soluções explicadas") +
       "</div>";
+  }
+
+  function trocarTitulo(tmp, texto) {
+    var h = tmp.querySelector("h1");
+    if (h) h.outerHTML = "<h2>" + texto + "</h2>";
+    tmp.querySelectorAll("p").forEach(function (pp) { if (/^📱/.test(pp.textContent.trim())) pp.remove(); });
   }
 
   function mostrarPagina(id) {
     var p = C.paginas[id];
-    if (!p) return naoAchou();
+    if (!p) return naoAchou(id);
+    var t = trilhaDe(id);
     var corpo = marked.parse(p.md);
-    var caminho = grupoDe[id] ? '<div class="caminho">' + esc(grupoDe[id]) + "</div>" : "";
+    var grupo = t && t.grupoDe[id] && id !== t.id ? t.grupoDe[id] : "";
+    var caminho = t && id !== t.id ? '<div class="caminho">' + esc(t.curto || t.titulo) + (grupo ? " · " + esc(grupo) : "") + "</div>" : "";
+    var tmp = document.createElement("div");
+    tmp.innerHTML = corpo;
     if (id === "") {
-      var tmp0 = document.createElement("div");
-      tmp0.innerHTML = corpo;
-      var h = tmp0.querySelector("h1");
-      if (h) h.outerHTML = "<h2>Sobre este material</h2>";
-      tmp0.querySelectorAll("p").forEach(function (pp) { if (/^📱/.test(pp.textContent.trim())) pp.remove(); });
-      main.innerHTML = inicio() + tmp0.innerHTML + rodape(id);
+      trocarTitulo(tmp, "Sobre este material");
+      main.innerHTML = inicioSite() + tmp.innerHTML;
+    } else if (t && id === t.id && t.aulas.length) {
+      trocarTitulo(tmp, "Sobre esta trilha");
+      main.innerHTML = inicioTrilha(t) + tmp.innerHTML + rodape(id, t);
     } else if (p.resposta && !reveladas[id]) {
-      var tmp = document.createElement("div");
-      tmp.innerHTML = corpo;
       var h1 = tmp.querySelector("h1");
       main.innerHTML = caminho + (h1 ? h1.outerHTML : "") +
         '<div class="spoiler-aviso"><p><strong>Já tentou resolver?</strong><br>O aprendizado está no tempo em que você fica travado. ' +
         "Tente uns 20 minutos antes de abrir.</p>" +
-        '<button class="botao primario" id="btn-revelar" type="button">Mostrar a resposta</button></div>' + rodape(id);
+        '<button class="botao primario" id="btn-revelar" type="button">Mostrar a resposta</button></div>' + rodape(id, t);
       el("btn-revelar").addEventListener("click", function () { reveladas[id] = true; mostrarPagina(id); });
     } else {
-      main.innerHTML = caminho + corpo + rodape(id);
+      main.innerHTML = caminho + corpo + rodape(id, t);
     }
-    enfeitar(main, true, id === "");
+    enfeitar(main, true, id === "" || (t && id === t.id));
     var chk = el("chk-feito");
     if (chk) chk.addEventListener("change", function () {
       if (chk.checked) feitos[id] = 1; else delete feitos[id];
       gravar("cfnb-feitos", feitos);
-      desenharMenu(id);
+      desenharMenu(id, t);
     });
-    definirTitulo(id === "" ? "Início" : p.titulo);
-    desenharMenu(id);
+    definirTitulo(id === "" ? "Início" : (t && id === t.id ? t.titulo : p.titulo));
+    desenharAbas(t);
+    desenharMenu(id, t);
   }
 
   function mostrarArquivo(caminho) {
     var f = C.arquivos[caminho];
-    if (!f) return naoAchou();
+    if (!f) return naoAchou("arquivo/" + caminho);
+    var t = trilhaDe(caminho);
     var nome = caminho.split("/").pop();
     var cerca = "````";
-    main.innerHTML = '<div class="caminho">Arquivo do repositório</div><h1><code>' + esc(nome) + "</code></h1>" +
+    main.innerHTML = '<div class="caminho">' + (t ? esc(t.curto || t.titulo) + " · " : "") + "Arquivo</div><h1><code>" + esc(nome) + "</code></h1>" +
       '<div class="meta"><span class="chip">' + esc(caminho) + '</span><a class="chip" href="' +
       esc(C.repo + "/blob/main/" + caminho) + '">ver no GitHub ↗</a></div>' +
       marked.parse(cerca + f.lang + "\n" + f.texto + "\n" + cerca) +
       '<p><a class="botao" href="javascript:history.back()">← Voltar</a></p>';
     enfeitar(main, false);
     definirTitulo(nome);
-    desenharMenu(null);
+    desenharAbas(t);
+    desenharMenu(null, t);
   }
 
-  function naoAchou() {
+  function naoAchou(rotaPedida) {
+    var antiga = rotaPedida.indexOf("arquivo/") === 0
+      ? "arquivo/" + PADRAO + "/" + rotaPedida.slice(8)
+      : PADRAO + "/" + rotaPedida;
+    if (PADRAO && (C.paginas[antiga] || C.arquivos[antiga.slice(8)])) {
+      location.replace("#/" + antiga);
+      return;
+    }
     main.innerHTML = "<h1>Página não encontrada</h1><p><a href='#/'>Voltar ao início</a></p>";
     definirTitulo("Não encontrada");
+    desenharAbas(null);
+    desenharMenu(null, null);
   }
 
   function definirTitulo(t) {
@@ -373,7 +458,8 @@
     var texto = C.paginas[id].md
       .replace(/```[a-z]*\n/g, "").replace(/\]\([^)]*\)/g, "]")
       .replace(/[#*`>|_\[\]]/g, " ").replace(/<\/?\w+[^>]*>/g, " ").replace(/\s+/g, " ").normalize("NFC");
-    return { id: id, titulo: C.paginas[id].titulo, texto: texto, norm: normal(texto), tnorm: normal(C.paginas[id].titulo) };
+    var t = porId[C.paginas[id].trilha];
+    return { id: id, titulo: C.paginas[id].titulo, trilha: t ? (t.curto || t.titulo) : "", texto: texto, norm: normal(texto), tnorm: normal(C.paginas[id].titulo) };
   });
   var timer = null;
   el("busca").addEventListener("input", function () {
@@ -403,7 +489,8 @@
         trecho = (ini > 0 ? "…" : "") + esc(t.slice(ini, a.i)) + "<mark>" + esc(t.slice(a.i, a.i + q.length)) + "</mark>" +
           esc(t.slice(a.i + q.length, a.i + q.length + 60)) + "…";
       }
-      html += '<a href="#/' + esc(a.p.id) + '">' + esc(a.p.titulo.replace(/`/g, "")) + (trecho ? "<small>" + trecho + "</small>" : "") + "</a>";
+      html += '<a href="#/' + esc(a.p.id) + '">' + (a.p.trilha ? '<span class="de-trilha">' + esc(a.p.trilha) + "</span>" : "") +
+        esc(a.p.titulo.replace(/`/g, "")) + (trecho ? "<small>" + trecho + "</small>" : "") + "</a>";
     });
     box.innerHTML = html || '<div class="vazio">Nada encontrado.</div>';
     box.hidden = false;
