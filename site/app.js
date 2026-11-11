@@ -317,20 +317,19 @@
 
   var CFG = C.config || {};
   var APOIO = CFG.apoio || {};
-  function cartaoApoio() {
-    if (!APOIO.link) return "";
-    return '<div class="apoio"><span class="emoji" aria-hidden="true">💙</span><div><strong>Gostou do material?</strong>' +
-      "<p>" + esc(APOIO.texto || "") + '</p><div class="apoio-acoes">' +
-      '<a class="botao primario" href="' + esc(APOIO.link) + '" target="_blank" rel="noopener">' + esc(APOIO.rotulo_link || "Apoie o projeto") + " ↗</a>" +
-      "</div></div></div>";
-  }
-
-  function rodapeSite() {
-    return '<footer class="rodape-site">' + cartaoApoio() +
+  /* rodapé do site: fica fora do conteúdo da página e é desenhado uma vez */
+  function desenharRodapeSite() {
+    var f = el("rodape");
+    if (!f) return;
+    var links = "";
+    if (APOIO.link) links += '<a class="apoiar" href="' + esc(APOIO.link) + '" target="_blank" rel="noopener">💙 ' + esc(APOIO.rotulo_link || "Apoie o projeto") + "</a>";
+    links += '<a href="' + esc(C.repo) + '" target="_blank" rel="noopener">GitHub</a>' +
+      '<a href="' + esc(C.repo + "/blob/main/CONTRIBUTING.md") + '" target="_blank" rel="noopener">Como contribuir</a>';
+    f.innerHTML = '<div class="rodape-dentro">' +
+      '<div class="rodape-topo"><span class="marca-rodape">C<span>·</span>42</span><span>C para quem já programa</span></div>' +
+      '<nav class="rodape-links" aria-label="Links do projeto">' + links + "</nav>" +
       '<p><strong>Não oficial.</strong> ' + esc(CFG.aviso || "") + "</p>" +
-      '<p><strong>Open-source.</strong> ' + esc(CFG.licenca || "") +
-      ' <a href="' + esc(C.repo) + '" target="_blank" rel="noopener">Código no GitHub</a> · ' +
-      '<a href="' + esc(C.repo + "/blob/main/CONTRIBUTING.md") + '" target="_blank" rel="noopener">Como contribuir</a></p></footer>';
+      '<p><strong>Open-source.</strong> ' + esc(CFG.licenca || "") + "</p></div>";
   }
 
   function cartao(href, emoji, titulo, sub) {
@@ -409,7 +408,6 @@
     } else {
       main.innerHTML = caminho + corpo + rodape(id, t);
     }
-    main.insertAdjacentHTML("beforeend", rodapeSite());
     enfeitar(main, true, id === "" || (t && id === t.id));
     var chk = el("chk-feito");
     if (chk) chk.addEventListener("change", function () {
@@ -432,7 +430,7 @@
       '<div class="meta"><span class="chip">' + esc(caminho) + '</span><a class="chip" href="' +
       esc(C.repo + "/blob/main/" + caminho) + '">ver no GitHub ↗</a></div>' +
       marked.parse(cerca + f.lang + "\n" + f.texto + "\n" + cerca) +
-      '<p><a class="botao" href="javascript:history.back()">← Voltar</a></p>' + rodapeSite();
+      '<p><a class="botao" href="javascript:history.back()">← Voltar</a></p>';
     enfeitar(main, false);
     definirTitulo(nome);
     desenharAbas(t);
@@ -517,6 +515,7 @@
     el("arvore").hidden = true;
   }
 
+  desenharRodapeSite();
   rota();
 
   if ("serviceWorker" in navigator && /^https?:$/.test(location.protocol)) {
