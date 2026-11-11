@@ -140,8 +140,12 @@ Ritmo pensado para **3 a 5 horas por dia**. Se um dia atrasar, não pule: as aul
 ### Dia 7 — Último exame e revisão
 - Simulações: [Exame 03](02-exercicios/exames/exame-03.md) (45 min) e [Exame 04](02-exercicios/exames/exame-04.md) (40 min, só programas)
 - Refaça de memória, em arquivos novos: `ft_putnbr`, `ft_strcmp`, `ft_strdup`, `ft_strjoin`, `ft_atoi`.
-- Responda de novo as **perguntas de fixação** de todas as aulas, sem abrir as respostas.
+- Responda de novo as **perguntas de fixação** de todas as aulas, sem abrir as respostas. No site, a **Revisão rápida** junta todas elas em cartões (dá para embaralhar).
 - Rode `./testes/rodar_todos.sh` e deixe tudo verde.
+
+### Se sobrar tempo
+- Desafios: [c06](02-exercicios/c06-desafios/) (`ft_strncmp`, `ft_putnbr_base`, `ft_split`). São mais difíceis e juntam tudo o que você viu.
+- Comece a trilha [C além do básico](../c-alem-do-basico/): headers próprios, `struct` e `Makefile`.
 
 ## Dicas para a Piscine em si
 

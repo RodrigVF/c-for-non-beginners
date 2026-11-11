@@ -96,6 +96,43 @@ def extras_da_piscine(local, pasta_local, prefixo, paginas, codigos):
     return extras
 
 
+def itens_numerados(linhas):
+    """Separa uma lista numerada em markdown ('1. ...') em itens, com as linhas de continuação."""
+    itens = []
+    em_codigo = False
+    for linha in linhas:
+        if linha.strip().startswith("```"):
+            em_codigo = not em_codigo
+        m = None if em_codigo else re.match(r"^(\d+)\.(?:\s+(.*))?$", linha)
+        if m:
+            itens.append([m.group(2) or ""])
+        elif itens:
+            itens[-1].append(linha[3:] if linha.startswith("   ") else linha)
+    return ["\n".join(i).strip() for i in itens]
+
+
+def cartoes_de_revisao(pid, texto, titulo):
+    """Extrai as perguntas de fixação de uma aula e as respostas do bloco <details>."""
+    m = re.search(r"^## Perguntas de fixação\s*$(.*)", texto, re.M | re.S)
+    if not m:
+        return []
+    resto = m.group(1)
+    if "<details>" not in resto:
+        return []
+    perguntas_txt, _, depois = resto.partition("<details>")
+    respostas_txt = depois.partition("</details>")[0]
+    respostas_txt = re.sub(r"<summary>.*?</summary>", "", respostas_txt)
+    respostas_txt = re.split(r"^Mini-exercício", respostas_txt, flags=re.M)[0]
+    perguntas = itens_numerados(perguntas_txt.split("\n"))
+    respostas = itens_numerados(respostas_txt.split("\n"))
+    if not perguntas or len(perguntas) != len(respostas):
+        print("  aviso: revisão ignorada em %s (%d perguntas, %d respostas)"
+              % (pid, len(perguntas), len(respostas)))
+        return []
+    return [{"id": pid, "aula": titulo, "q": q, "a": a}
+            for q, a in zip(perguntas, respostas)]
+
+
 def nav_piscine(pre, pags):
     def tit(pid):
         return pags[pid]["titulo"]
@@ -195,10 +232,17 @@ def main():
         }
 
     for t in trilhas:
+        t["revisao"] = []
+        for pid in sorted(saida):
+            if saida[pid]["trilha"] == t["id"]:
+                t["revisao"] += cartoes_de_revisao(pid, saida[pid]["md"], saida[pid]["titulo"])
         if os.path.isdir(os.path.join(RAIZ, t["id"], "01-exemplos")):
             t["nav"] = nav_piscine(t["id"], saida)
         else:
             t["nav"] = nav_generica(t["id"], saida)
+        if t["revisao"]:
+            t["nav"][0]["itens"].insert(1, {"id": "revisao/" + t["id"],
+                                            "titulo": "🧠 Revisão rápida"})
         for g in t["nav"]:
             for it in g["itens"]:
                 it["titulo"] = it["titulo"].replace("`", "")

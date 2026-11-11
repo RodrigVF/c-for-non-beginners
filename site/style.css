@@ -377,6 +377,25 @@ code, pre, kbd { font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", Me
 .selos { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
 .conteudo .selos a.chip { color: var(--texto-2); }
 
+/* ---------- revisão rápida ---------- */
+.painel .botao.revisar { margin-top: 8px; width: 100%; }
+.rev-controles { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 16px; }
+.rev-controles select {
+  flex: 1 1 200px; min-width: 0; max-width: 100%; text-overflow: ellipsis; min-height: 46px; padding: 8px 12px; font-size: 15px;
+  border: 1px solid var(--borda); border-radius: 12px; background: var(--cartao); color: var(--texto);
+}
+.cartao-revisao { padding: 18px; border-radius: 18px; border: 1px solid var(--borda); background: var(--cartao); box-shadow: var(--sombra); }
+.rev-topo { display: flex; justify-content: space-between; gap: 10px; font-size: 12.5px; font-weight: 650; color: var(--texto-3); margin-bottom: 10px; }
+.rev-pergunta { font-size: 1.12rem; font-weight: 650; line-height: 1.5; }
+.rev-pergunta p { margin: 0 0 0.6em; }
+.rev-mostrar { width: 100%; margin: 10px 0 4px; }
+.rev-resposta { margin-top: 12px; padding: 14px; border-radius: 14px; background: var(--pratica-fundo); border: 1px solid var(--pratica-borda); }
+.rev-resposta .rotulo { color: var(--pratica-texto); }
+.rev-resposta > :last-child { margin-bottom: 0; }
+.rev-fonte { font-size: 14px; margin-top: 8px; }
+.rev-nav { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+.rev-nav .botao:disabled { opacity: 0.4; cursor: default; }
+
 /* ---------- realce de sintaxe ---------- */
 .hljs-keyword, .hljs-meta .hljs-keyword, .hljs-built_in, .hljs-literal { color: var(--k); }
 .hljs-string, .hljs-meta .hljs-string { color: var(--s); }

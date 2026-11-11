@@ -27,7 +27,7 @@
     t.grupoDe = {};
     t.nav.forEach(function (g) {
       g.itens.forEach(function (it) {
-        if (t.ordem.indexOf(it.id) < 0) t.ordem.push(it.id);
+        if (t.ordem.indexOf(it.id) < 0 && it.id.indexOf("revisao/") !== 0) t.ordem.push(it.id);
         if (!(it.id in t.grupoDe)) t.grupoDe[it.id] = g.grupo;
       });
     });
@@ -37,6 +37,7 @@
 
   function trilhaDe(id) {
     if (C.paginas[id]) return porId[C.paginas[id].trilha] || null;
+    if (String(id).indexOf("revisao/") === 0) return porId[String(id).slice(8)] || null;
     return porId[String(id).split("/")[0]] || null;
   }
 
@@ -383,7 +384,8 @@
       "<h1>" + esc(t.titulo) + "</h1><p>" + esc(t.descricao || "") + "</p></div>" +
       '<div class="painel"><div class="linha"><span>Aulas estudadas</span><strong>' + feitas + " de " + t.aulas.length + "</strong></div>" +
       '<div class="trilho"><span style="width:' + Math.round((feitas / Math.max(1, t.aulas.length)) * 100) + '%"></span></div>' +
-      botao + '<div class="linha" style="margin:10px 0 0"><span>Páginas marcadas nesta trilha</span><span>' + estudadas + " de " + total.length + "</span></div></div>" +
+      botao + (t.revisao && t.revisao.length ? '<a class="botao revisar" href="#/revisao/' + esc(t.id) + '">🧠 Revisão rápida · ' + t.revisao.length + " perguntas</a>" : "") +
+      '<div class="linha" style="margin:10px 0 0"><span>Páginas marcadas nesta trilha</span><span>' + estudadas + " de " + total.length + "</span></div></div>" +
       '<div class="cartoes">' +
       cartao("#/" + p + "01-exemplos", "📘", "Aulas", t.aulas.length + " aulas de 5 a 10 min") +
       cartao("#/" + p + "02-exercicios", "🛠️", "Exercícios", "Módulos no estilo subject") +
@@ -452,6 +454,71 @@
     desenharMenu(null, t);
   }
 
+  /* ---------- revisão rápida (cartões de pergunta e resposta) ---------- */
+  var revisao = { trilha: null, filtro: "", embaralhar: false, lista: [], pos: 0, aberta: false };
+
+  function montarLista() {
+    var t = revisao.trilha;
+    var base = t.revisao.filter(function (c) { return !revisao.filtro || c.id === revisao.filtro; });
+    if (revisao.embaralhar) {
+      base = base.slice();
+      for (var i = base.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var tmp = base[i]; base[i] = base[j]; base[j] = tmp;
+      }
+    }
+    revisao.lista = base;
+    revisao.pos = 0;
+    revisao.aberta = false;
+  }
+
+  function desenharCartao() {
+    var area = el("cartao-revisao");
+    var c = revisao.lista[revisao.pos];
+    if (!c) { area.innerHTML = "<p>Nenhuma pergunta.</p>"; return; }
+    area.innerHTML = '<div class="rev-topo"><span>' + esc(c.aula.replace(/`/g, "")) + "</span><span>" + (revisao.pos + 1) + " de " + revisao.lista.length + "</span></div>" +
+      '<div class="rev-pergunta">' + marked.parse(c.q) + "</div>" +
+      (revisao.aberta
+        ? '<div class="rev-resposta"><span class="rotulo">Resposta</span>' + marked.parse(c.a) + '<p class="rev-fonte"><a href="#/' + esc(c.id) + '">Rever a aula →</a></p></div>'
+        : '<button class="botao primario rev-mostrar" type="button" id="rev-mostrar">Mostrar resposta</button>') +
+      '<div class="rev-nav"><button class="botao" type="button" id="rev-ant"' + (revisao.pos === 0 ? " disabled" : "") + '>← Anterior</button>' +
+      '<button class="botao" type="button" id="rev-prox"' + (revisao.pos >= revisao.lista.length - 1 ? " disabled" : "") + ">Próxima →</button></div>";
+    enfeitar(area, false);
+    var m = el("rev-mostrar");
+    if (m) m.addEventListener("click", function () { revisao.aberta = true; desenharCartao(); });
+    el("rev-ant").addEventListener("click", function () { revisao.pos--; revisao.aberta = false; desenharCartao(); irParaCartao(); });
+    el("rev-prox").addEventListener("click", function () { revisao.pos++; revisao.aberta = false; desenharCartao(); irParaCartao(); });
+  }
+
+  function irParaCartao() {
+    var area = el("cartao-revisao");
+    var topo = area.getBoundingClientRect().top;
+    if (topo < 70) window.scrollTo(0, window.scrollY + topo - 70);
+  }
+
+  function mostrarRevisao(t) {
+    if (!t || !t.revisao || !t.revisao.length) return naoAchou("revisao");
+    if (revisao.trilha !== t) { revisao.trilha = t; revisao.filtro = ""; revisao.embaralhar = false; montarLista(); }
+    var aulas = [];
+    t.revisao.forEach(function (c) { if (aulas.indexOf(c.id) < 0) aulas.push(c.id); });
+    var opcoes = '<option value="">Todas as aulas (' + t.revisao.length + ")</option>";
+    aulas.forEach(function (id) {
+      var n = t.revisao.filter(function (c) { return c.id === id; }).length;
+      opcoes += '<option value="' + esc(id) + '"' + (revisao.filtro === id ? " selected" : "") + ">" + esc(tituloNav(id)) + " (" + n + ")</option>";
+    });
+    main.innerHTML = '<div class="caminho">' + esc(t.curto || t.titulo) + "</div><h1>🧠 Revisão rápida</h1>" +
+      "<p>As perguntas de fixação das aulas, uma por vez. Tente responder de cabeça antes de tocar em <strong>Mostrar resposta</strong>.</p>" +
+      '<div class="rev-controles"><select id="rev-filtro" aria-label="Escolher aula">' + opcoes + "</select>" +
+      '<button class="botao" type="button" id="rev-embaralhar" aria-pressed="' + revisao.embaralhar + '">' + (revisao.embaralhar ? "🔀 Embaralhado" : "🔀 Embaralhar") + "</button></div>" +
+      '<div id="cartao-revisao" class="cartao-revisao"></div>';
+    el("rev-filtro").addEventListener("change", function () { revisao.filtro = this.value; montarLista(); mostrarRevisao(t); });
+    el("rev-embaralhar").addEventListener("click", function () { revisao.embaralhar = !revisao.embaralhar; montarLista(); mostrarRevisao(t); });
+    desenharCartao();
+    definirTitulo("Revisão rápida");
+    desenharAbas(t);
+    desenharMenu("revisao/" + t.id, t);
+  }
+
   function naoAchou(rotaPedida) {
     var achado = rotaPedida.indexOf("arquivo/") === 0
       ? acharArquivoEmTrilha(rotaPedida.slice(8))
@@ -476,6 +543,7 @@
     var h = decodeURIComponent(location.hash.replace(/^#\/?/, ""));
     abrirMenu(false);
     if (h.indexOf("arquivo/") === 0) mostrarArquivo(h.slice(8));
+    else if (h.indexOf("revisao/") === 0) mostrarRevisao(porId[h.slice(8).replace(/\/$/, "")]);
     else mostrarPagina(h.replace(/\/$/, ""));
     window.scrollTo(0, 0);
     atualizarProgresso();

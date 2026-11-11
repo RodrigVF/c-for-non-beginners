@@ -53,7 +53,7 @@ c-for-non-beginners/
 
 ## O site
 
-O site é **estático** (HTML, CSS e JavaScript, sem backend e sem framework). Ele tem abas por trilha, menu, busca, respostas escondidas até você tocar, marcação de "estudado" (guardada no seu navegador), tamanho de letra ajustável, tema escuro e funciona offline depois da primeira visita.
+O site é **estático** (HTML, CSS e JavaScript, sem backend e sem framework). Ele tem abas por trilha, menu, busca, **revisão rápida** (as perguntas de fixação em cartões, com a resposta escondida), respostas escondidas até você tocar, marcação de "estudado" (guardada no seu navegador), tamanho de letra ajustável, tema escuro e funciona offline depois da primeira visita.
 
 O botão "Apoie o projeto", o aviso de "não oficial" e o texto da licença que aparecem no rodapé do site ficam em [`site/config.json`](site/config.json). O botão do site só leva para a seção [Apoie o projeto](#apoie-o-projeto) deste README; as formas de apoio ficam aqui no GitHub.
 

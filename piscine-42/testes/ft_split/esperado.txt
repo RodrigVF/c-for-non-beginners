@@ -1,0 +1,8 @@
+ft_split("  Ola  Piscine 42 ", " ") = [Ola] [Piscine] [42] (3 palavra(s))
+ft_split("a,b;;c", ",;") = [a] [b] [c] (3 palavra(s))
+ft_split("", " ") = (0 palavra(s))
+ft_split("    ", " ") = (0 palavra(s))
+ft_split("semseparador", "") = [semseparador] (1 palavra(s))
+ft_split("abcabc", "abc") = (0 palavra(s))
+ft_split(",x,", ",") = [x] (1 palavra(s))
+ft_split("linha1|linha2|", "|") = [linha1] [linha2] (2 palavra(s))

@@ -13,6 +13,7 @@ Cada pasta tem a solução (`.c` ou `.sh`, seguindo a Norma e com cabeçalho) e 
 | c03 | [ex00 ft_strdup](c03-memoria/ex00/) · [ex01 ft_range](c03-memoria/ex01/) · [ex02 ft_strjoin](c03-memoria/ex02/) |
 | c04 | [ex00 ft_factorial](c04-recursao/ex00/) · [ex01 ft_power](c04-recursao/ex01/) |
 | c05 | [ex00 ft_show_name](c05-programas/ex00/) · [ex01 ft_show_args](c05-programas/ex01/) · [ex02 ft_rev_args](c05-programas/ex02/) · [ex03 ft_sort_args](c05-programas/ex03/) |
+| c06 | [ex00 ft_strncmp](c06-desafios/ex00/) · [ex01 ft_putnbr_base](c06-desafios/ex01/) · [ex02 ft_split](c06-desafios/ex02/) |
 | exames (novos) | [ft_print_reverse_alphabet](exames/ft_print_reverse_alphabet/) · [ft_str_is_alpha](exames/ft_str_is_alpha/) · [ft_atoi](exames/ft_atoi/) · [ft_last_arg](exames/ft_last_arg/) |
 
 Os outros exercícios das simulações de exame usam as respostas dos módulos acima.

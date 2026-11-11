@@ -13,6 +13,7 @@
 | [c03-memoria](c03-memoria/) | `malloc` | 3 |
 | [c04-recursao](c04-recursao/) | fatorial, potência | 2 |
 | [c05-programas](c05-programas/) | programas com `argc`/`argv` | 4 |
+| [c06-desafios](c06-desafios/) | `ft_strncmp`, `ft_putnbr_base`, `ft_split` (extra, mais difícil) | 3 |
 | [exames](exames/) | 4 simulações cronometradas | — |
 
 ## Como fazer cada exercício

@@ -1,0 +1,10 @@
+caso 1 (n=3): esperado 0, obtido 0
+caso 2 (n=3): esperado -1, obtido -1
+caso 3 (n=2): esperado 0, obtido 0
+caso 4 (n=10): esperado 1, obtido 1
+caso 5 (n=0): esperado 0, obtido 0
+caso 6 (n=1): esperado -1, obtido -1
+caso 7 (n=2): esperado 0, obtido 0
+caso 8 (n=3): esperado -1, obtido -1
+caso 9 (n=1): esperado 1, obtido 1
+caso 10 (n=4): esperado 0, obtido 0
