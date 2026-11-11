@@ -315,6 +315,36 @@
     return html + "</div>";
   }
 
+  var CFG = C.config || {};
+  var APOIO = CFG.apoio || {};
+  var temApoio = !!(APOIO.link || APOIO.pix);
+
+  function cartaoApoio() {
+    if (!temApoio) return "";
+    var html = '<div class="apoio"><span class="emoji" aria-hidden="true">💙</span><div><strong>Gostou? Apoie este material</strong>' +
+      "<p>" + esc(APOIO.texto || "") + '</p><div class="apoio-acoes">';
+    if (APOIO.link) html += '<a class="botao primario" href="' + esc(APOIO.link) + '" target="_blank" rel="noopener">' + esc(APOIO.rotulo_link || "Apoiar") + " ↗</a>";
+    if (APOIO.pix) html += '<button class="botao" type="button" id="btn-pix">Copiar chave Pix</button>';
+    return html + "</div></div></div>";
+  }
+
+  function rodapeSite() {
+    return '<footer class="rodape-site">' + cartaoApoio() +
+      '<p><strong>Não oficial.</strong> ' + esc(CFG.aviso || "") + "</p>" +
+      '<p><strong>Open-source.</strong> ' + esc(CFG.licenca || "") +
+      ' <a href="' + esc(C.repo) + '" target="_blank" rel="noopener">Código no GitHub</a> · ' +
+      '<a href="' + esc(C.repo + "/blob/main/CONTRIBUTING.md") + '" target="_blank" rel="noopener">Como contribuir</a></p></footer>';
+  }
+
+  function ligarRodapeSite() {
+    var b = el("btn-pix");
+    if (b) b.addEventListener("click", function () {
+      var ok = function () { b.textContent = "Chave copiada!"; setTimeout(function () { b.textContent = "Copiar chave Pix"; }, 2000); };
+      if (navigator.clipboard) navigator.clipboard.writeText(APOIO.pix).then(ok, function () { b.textContent = APOIO.pix; });
+      else b.textContent = APOIO.pix;
+    });
+  }
+
   function cartao(href, emoji, titulo, sub) {
     return '<a class="cartao" href="' + href + '"><span class="emoji">' + emoji + "</span><strong>" + esc(titulo) + "</strong><small>" + esc(sub) + "</small></a>";
   }
@@ -323,7 +353,8 @@
   function inicioSite() {
     var html = '<div class="hero"><div class="caminho">Material de estudo</div>' +
       "<h1>C para quem já programa</h1>" +
-      "<p>O que é específico de C — sintaxe, memória e ponteiros — explicado para quem já sabe programar em outra linguagem.</p></div>" +
+      "<p>O que é específico de C — sintaxe, memória e ponteiros — explicado para quem já sabe programar em outra linguagem.</p>" +
+      '<div class="selos"><span class="chip">🆓 Gratuito</span><a class="chip" href="' + esc(C.repo) + '" target="_blank" rel="noopener">🔓 Open-source</a><span class="chip">⚠️ Não oficial</span></div></div>' +
       '<h2 class="titulo-secao">Trilhas</h2><div class="trilhas">';
     trilhas.forEach(function (t) {
       var total = t.ordem.length;
@@ -390,6 +421,8 @@
     } else {
       main.innerHTML = caminho + corpo + rodape(id, t);
     }
+    main.insertAdjacentHTML("beforeend", rodapeSite());
+    ligarRodapeSite();
     enfeitar(main, true, id === "" || (t && id === t.id));
     var chk = el("chk-feito");
     if (chk) chk.addEventListener("change", function () {
@@ -412,7 +445,8 @@
       '<div class="meta"><span class="chip">' + esc(caminho) + '</span><a class="chip" href="' +
       esc(C.repo + "/blob/main/" + caminho) + '">ver no GitHub ↗</a></div>' +
       marked.parse(cerca + f.lang + "\n" + f.texto + "\n" + cerca) +
-      '<p><a class="botao" href="javascript:history.back()">← Voltar</a></p>';
+      '<p><a class="botao" href="javascript:history.back()">← Voltar</a></p>' + rodapeSite();
+    ligarRodapeSite();
     enfeitar(main, false);
     definirTitulo(nome);
     desenharAbas(t);

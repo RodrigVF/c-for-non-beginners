@@ -1,5 +1,7 @@
 # Preparação Piscine 42 — 7 dias de C e shell
 
+> ⚠️ **Material não oficial**, sem vínculo com a 42 ou a 42 São Paulo. É gratuito e [open-source](../README.md#licença).
+
 Repositório de estudo para quem **já programa** em outra linguagem e **nunca escreveu C**. Não explica lógica de programação: foca no que é específico de C (sintaxe, por que ela é assim, e como a memória funciona) e no shell.
 
 ## A Piscine, em poucas linhas

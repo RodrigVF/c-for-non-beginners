@@ -357,6 +357,22 @@ code, pre, kbd { font-family: ui-monospace, SFMono-Regular, "JetBrains Mono", Me
 .cartao strong { display: block; font-size: 15px; }
 .cartao small { display: block; color: var(--texto-2); font-size: 13px; line-height: 1.4; margin-top: 2px; }
 
+/* ---------- rodapé do site e apoio ---------- */
+.rodape-site { margin-top: 2.6em; padding-top: 1.4em; border-top: 1px solid var(--borda); font-size: 0.85rem; line-height: 1.6; color: var(--texto-2); }
+.rodape-site p { margin: 0 0 0.8em; }
+.rodape-site strong { color: var(--texto); }
+.apoio {
+  display: flex; gap: 12px; align-items: flex-start; margin: 0 0 1.4em; padding: 16px;
+  border-radius: 16px; border: 1px solid var(--dica-borda); background: var(--dica-fundo); color: var(--texto); font-size: 0.95rem;
+}
+.apoio .emoji { font-size: 24px; line-height: 1.2; }
+.apoio strong { display: block; font-size: 1rem; }
+.apoio p { margin: 4px 0 12px; color: var(--texto-2); }
+.apoio-acoes { display: flex; flex-wrap: wrap; gap: 8px; }
+.rodape-site .apoio a.botao { border-bottom: 1px solid var(--destaque); }
+.selos { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+.conteudo .selos a.chip { color: var(--texto-2); }
+
 /* ---------- realce de sintaxe ---------- */
 .hljs-keyword, .hljs-meta .hljs-keyword, .hljs-built_in, .hljs-literal { color: var(--k); }
 .hljs-string, .hljs-meta .hljs-string { color: var(--s); }

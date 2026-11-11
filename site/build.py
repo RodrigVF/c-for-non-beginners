@@ -199,12 +199,13 @@ def main():
             for it in g["itens"]:
                 it["titulo"] = it["titulo"].replace("`", "")
 
+    config = json.load(open(os.path.join(SITE, "config.json"), encoding="utf-8"))
     conteudo = {"paginas": saida, "arquivos": codigos, "trilhas": trilhas,
-                "repo": REPO}
+                "repo": REPO, "config": config}
     js = "window.CONTEUDO = " + json.dumps(conteudo, ensure_ascii=False) + ";\n"
     h = hashlib.sha1(js.encode())
     for n in sorted(os.listdir(SITE)):
-        if n != "build.py":
+        if n not in ("build.py", "config.json"):
             h.update(open(os.path.join(SITE, n), "rb").read())
     versao = h.hexdigest()[:10]
 

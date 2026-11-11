@@ -4,6 +4,10 @@ Material de estudo de C (e shell) para quem **já programa** em outra linguagem.
 
 📱 **Site para estudar no celular:** https://c-for-non-begginers.vercel.app
 
+> ⚠️ **Não oficial.** Este é um projeto independente, sem vínculo com a 42, a 42 São Paulo ou a 42 Network. Os exercícios são recriações no estilo da Piscine, não os subjects oficiais.
+>
+> 🔓 **Open-source.** Código sob [MIT](LICENSE) e textos sob [CC BY 4.0](LICENSE-CONTEUDO.md). Contribuições são bem-vindas: veja [CONTRIBUTING.md](CONTRIBUTING.md).
+
 ## Trilhas
 
 O conteúdo é organizado em **trilhas**. Cada trilha é uma pasta na raiz do repositório e vira uma **aba** no site.
@@ -21,6 +25,9 @@ c-for-non-begginers/
 ├── site/             ← código do site e o gerador (build.py)
 ├── docs/             ← site pronto, gerado (não edite à mão)
 ├── vercel.json       ← configuração da Vercel
+├── LICENSE           ← licença MIT (código)
+├── LICENSE-CONTEUDO.md ← licença CC BY 4.0 (textos)
+├── CONTRIBUTING.md   ← como contribuir
 └── .vscode/          ← configuração do editor (tabs, régua de 80 colunas)
 ```
 
@@ -45,6 +52,8 @@ c-for-non-begginers/
 
 O site é **estático** (HTML, CSS e JavaScript, sem backend e sem framework). Ele tem abas por trilha, menu, busca, respostas escondidas até você tocar, marcação de "estudado" (guardada no seu navegador), tamanho de letra ajustável, tema escuro e funciona offline depois da primeira visita.
 
+O botão de apoio, o aviso de "não oficial" e o texto da licença que aparecem no rodapé do site ficam em [`site/config.json`](site/config.json). Preencha `apoio.link` (e/ou `apoio.pix`) para o botão aparecer; vazio, ele fica escondido.
+
 Depois de editar qualquer `.md` ou exemplo, gere o site e faça commit da pasta `docs/`:
 
 ```bash
@@ -67,3 +76,11 @@ rm -rf /tmp/cfnb-deploy && mkdir /tmp/cfnb-deploy
 cp -r docs vercel.json .vercel /tmp/cfnb-deploy/
 cd /tmp/cfnb-deploy && npx vercel deploy --prod
 ```
+
+## Licença
+
+- **Código** (`.c`, `.h`, `.sh`, `.py`, `.js`, `.css`, `.html`): [MIT](LICENSE).
+- **Textos** (aulas, enunciados, explicações): [CC BY 4.0](LICENSE-CONTEUDO.md). Pode copiar e adaptar, desde que dê o crédito.
+
+"42" é marca de seus respectivos donos e aparece aqui só para indicar o assunto do material.
+
