@@ -1,3 +1,5 @@
 a.out
 *.o
 sandbox/
+.vercel
+.env*
