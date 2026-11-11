@@ -17,6 +17,7 @@ Cada aula tem um `README.md` curto (5 a 10 minutos) e programas `.c` ao lado. Le
 | 11 | [Terminal e shell](11-shell/) | comandos, `chmod`, `grep`, pipes, `man` |
 | 12 | [Git](12-git/) | clone, add, commit, push, `ex00/` |
 | 13 | [Erros](13-erros/) | ler mensagens do `cc`, segfault |
+| 14 | [`argc` e `argv`](14-argc-argv/) | programas que recebem argumentos |
 
 ## Sobre os comentários nos trechos de código
 

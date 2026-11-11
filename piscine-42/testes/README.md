@@ -8,7 +8,12 @@ testes/ft_strlen/
 └── esperado.txt    ← a saída correta, byte a byte
 testes/ola/
 └── teste.sh        ← exercícios de shell têm um script de teste
+testes/ft_show_args/
+└── teste.sh        ← programas (c05) também: o teste compila o seu .c
+                      sozinho e roda com vários argumentos
 ```
+
+Nos testes de programa, a saída aparece entre colchetes, e o `$` marca o fim de cada linha (o `\n`). Assim dá para ver linhas vazias e espaços sobrando: `[a$b$]` é "a", quebra de linha, "b", quebra de linha.
 
 ## Rodando
 

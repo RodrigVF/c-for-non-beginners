@@ -18,7 +18,7 @@ Datas, duração exata, regras de exame, o que é permitido levar e outros detal
 piscine-42/
 ├── README.md            ← você está aqui (plano de 7 dias no fim)
 ├── run.sh               ← compila e testa um exercício pelo nome
-├── 01-exemplos/         ← 13 aulas curtas, cada uma com código que roda
+├── 01-exemplos/         ← 14 aulas curtas, cada uma com código que roda
 ├── 02-exercicios/       ← enunciados no formato subject (sem resposta)
 ├── 03-respostas/        ← soluções na Norma + explicação detalhada
 ├── testes/              ← main.c e saída esperada de cada exercício
@@ -130,14 +130,15 @@ Ritmo pensado para **3 a 5 horas por dia**. Se um dia atrasar, não pule: as aul
 - Exercícios: c03 inteiro (`ft_strdup`, `ft_range`, `ft_strjoin`)
 - Simulação: [Exame 01](02-exercicios/exames/exame-01.md) (30 min, sem consulta)
 
-### Dia 6 — Recursão + segundo exame
+### Dia 6 — Recursão, programas + segundo exame
 - Releia a aula [10 Recursão](01-exemplos/10-recursao/) (lida no dia 3)
-- Exercícios: c04 inteiro (`ft_factorial`, `ft_power`)
+- Aula: [14 argc e argv](01-exemplos/14-argc-argv/) (programas que recebem argumentos)
+- Exercícios: c04 inteiro (`ft_factorial`, `ft_power`) · c05 inteiro (`ft_show_name`, `ft_show_args`, `ft_rev_args`, `ft_sort_args`)
 - Simulação: [Exame 02](02-exercicios/exames/exame-02.md) (40 min)
 - Refaça, do zero e sem olhar, os exercícios em que você errou até agora.
 
 ### Dia 7 — Último exame e revisão
-- Simulação: [Exame 03](02-exercicios/exames/exame-03.md) (45 min)
+- Simulações: [Exame 03](02-exercicios/exames/exame-03.md) (45 min) e [Exame 04](02-exercicios/exames/exame-04.md) (40 min, só programas)
 - Refaça de memória, em arquivos novos: `ft_putnbr`, `ft_strcmp`, `ft_strdup`, `ft_strjoin`, `ft_atoi`.
 - Responda de novo as **perguntas de fixação** de todas as aulas, sem abrir as respostas.
 - Rode `./testes/rodar_todos.sh` e deixe tudo verde.

@@ -12,7 +12,8 @@
 | [c02-strings](c02-strings/) | cópia, comparação, inversão | 5 |
 | [c03-memoria](c03-memoria/) | `malloc` | 3 |
 | [c04-recursao](c04-recursao/) | fatorial, potência | 2 |
-| [exames](exames/) | 3 simulações cronometradas | — |
+| [c05-programas](c05-programas/) | programas com `argc`/`argv` | 4 |
+| [exames](exames/) | 4 simulações cronometradas | — |
 
 ## Como fazer cada exercício
 

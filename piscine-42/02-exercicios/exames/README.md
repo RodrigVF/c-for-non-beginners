@@ -17,5 +17,6 @@
 | [Exame 01](exame-01.md) | 30 min | `ft_print_reverse_alphabet`, `ft_strlen`, `ft_swap`, `ft_strrev` |
 | [Exame 02](exame-02.md) | 40 min | `ft_str_is_alpha`, `ft_strcmp`, `ft_putnbr`, `ft_range` |
 | [Exame 03](exame-03.md) | 45 min | `ft_power`, `ft_strdup`, `ft_atoi`, `ft_strjoin` |
+| [Exame 04](exame-04.md) | 40 min | só programas: `ft_last_arg`, `ft_show_args`, `ft_rev_args`, `ft_sort_args` |
 
-Os exercícios novos (que não estão nos módulos) são `ft_print_reverse_alphabet`, `ft_str_is_alpha` e `ft_atoi`. As respostas deles estão em [`03-respostas/exames/`](../../03-respostas/exames/).
+Os exercícios novos (que não estão nos módulos) são `ft_print_reverse_alphabet`, `ft_str_is_alpha`, `ft_atoi` e `ft_last_arg`. As respostas deles estão em [`03-respostas/exames/`](../../03-respostas/exames/).

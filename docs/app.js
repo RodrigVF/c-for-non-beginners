@@ -40,14 +40,30 @@
     return porId[String(id).split("/")[0]] || null;
   }
 
+  /* procura uma página antiga (sem o prefixo da trilha) dentro das trilhas */
+  function acharEmTrilha(rotaAntiga) {
+    for (var i = 0; i < trilhas.length; i++) {
+      var id = trilhas[i].id + "/" + rotaAntiga;
+      if (C.paginas[id]) return id;
+    }
+    return null;
+  }
+  function acharArquivoEmTrilha(caminho) {
+    for (var i = 0; i < trilhas.length; i++) {
+      var c = trilhas[i].id + "/" + caminho;
+      if (C.arquivos[c]) return c;
+    }
+    return null;
+  }
+
   /* migra o progresso salvo antes das abas existirem (ids sem o prefixo da trilha) */
   var feitos = ler("cfnb-feitos", {});
   (function () {
     var mudou = false;
     Object.keys(feitos).forEach(function (k) {
       if (C.paginas[k] && k !== "") return;
-      var novo = k === "" ? PADRAO : PADRAO + "/" + k;
-      if (C.paginas[novo]) { feitos[novo] = feitos[k]; }
+      var novo = k === "" ? PADRAO : acharEmTrilha(k);
+      if (novo && C.paginas[novo]) { feitos[novo] = feitos[k]; }
       delete feitos[k];
       mudou = true;
     });
@@ -75,9 +91,11 @@
     var html = '<a class="aba' + (!t ? " ativa" : "") + '" href="#/">Início</a>';
     trilhas.forEach(function (x) {
       html += '<a class="aba' + (t && t.id === x.id ? " ativa" : "") + '" href="#/' + esc(x.id) + '">' +
-        (x.emoji ? '<span aria-hidden="true">' + esc(x.emoji) + "</span> " : "") + esc(x.titulo) + "</a>";
+        (x.emoji ? '<span aria-hidden="true">' + esc(x.emoji) + "</span> " : "") + esc(x.curto || x.titulo) + "</a>";
     });
     el("abas").innerHTML = html;
+    var ativa = el("abas").querySelector(".ativa");
+    if (ativa) el("abas").scrollLeft = Math.max(0, ativa.offsetLeft - 18);
   }
 
   function abrirMenu(abrir) {
@@ -145,7 +163,7 @@
   /* ---------- renderização ---------- */
   marked.use({ gfm: true });
 
-  var NOMES_LING = { c: "C", bash: "Terminal", sh: "Terminal", python: "Python", json: "JSON" };
+  var NOMES_LING = { c: "C", bash: "Terminal", sh: "Terminal", python: "Python", json: "JSON", makefile: "Makefile", make: "Makefile" };
 
   function dicaDeRolagem(caixa, rolavel) {
     requestAnimationFrame(function () {
@@ -435,11 +453,11 @@
   }
 
   function naoAchou(rotaPedida) {
-    var antiga = rotaPedida.indexOf("arquivo/") === 0
-      ? "arquivo/" + PADRAO + "/" + rotaPedida.slice(8)
-      : PADRAO + "/" + rotaPedida;
-    if (PADRAO && (C.paginas[antiga] || C.arquivos[antiga.slice(8)])) {
-      location.replace("#/" + antiga);
+    var achado = rotaPedida.indexOf("arquivo/") === 0
+      ? acharArquivoEmTrilha(rotaPedida.slice(8))
+      : acharEmTrilha(rotaPedida);
+    if (achado) {
+      location.replace("#/" + (rotaPedida.indexOf("arquivo/") === 0 ? "arquivo/" : "") + achado);
       return;
     }
     main.innerHTML = "<h1>Página não encontrada</h1><p><a href='#/'>Voltar ao início</a></p>";

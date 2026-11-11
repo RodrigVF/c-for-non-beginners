@@ -86,9 +86,12 @@ testa_um() {
 	echo "  arquivo: ${src#$RAIZ/}"
 	if [ -f "$TESTES/$nome/teste.sh" ]; then
 		if sh "$TESTES/$nome/teste.sh" "$src" | sed 's/^/  /'; [ "${PIPESTATUS[0]}" -eq 0 ]; then
-			ok "testes de shell"
+			ok "testes do $( [ "${src##*.}" = "c" ] && echo programa || echo script)"
 		else
 			r=1
+		fi
+		if [ "${src##*.}" = "c" ]; then
+			testa_norma "$src" || r=1
 		fi
 	else
 		testa_c "$nome" "$src" || r=1

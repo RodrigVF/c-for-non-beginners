@@ -14,7 +14,8 @@ O conteúdo é organizado em **trilhas**. Cada trilha é uma pasta na raiz do re
 
 | Trilha | Pasta | Conteúdo |
 |---|---|---|
-| Preparação Piscine 42 | [`piscine-42/`](piscine-42/) | 13 aulas, exercícios no estilo da Piscine da 42SP, 3 simulados, respostas comentadas e testes automáticos (`run.sh`) |
+| Preparação Piscine 42 | [`piscine-42/`](piscine-42/) | 14 aulas, exercícios no estilo da Piscine da 42SP (funções e programas), 4 simulados, respostas comentadas e testes automáticos (`run.sh`) |
+| C além do básico | [`c-alem-do-basico/`](c-alem-do-basico/) | seus próprios headers e vários arquivos, `struct` e `typedef`, `Makefile` |
 
 ## Estrutura
 
@@ -22,6 +23,7 @@ O conteúdo é organizado em **trilhas**. Cada trilha é uma pasta na raiz do re
 c-for-non-beginners/
 ├── README.md         ← você está aqui
 ├── piscine-42/       ← trilha "Preparação Piscine 42" (tem o próprio README)
+├── c-alem-do-basico/ ← trilha "C além do básico"
 ├── site/             ← código do site e o gerador (build.py)
 ├── docs/             ← site pronto, gerado (não edite à mão)
 ├── vercel.json       ← configuração da Vercel
@@ -38,6 +40,7 @@ c-for-non-beginners/
 
 ```json
 {
+  "ordem": 3,
   "titulo": "Ponteiros avançados",
   "curto": "Ponteiros",
   "emoji": "🧭",
@@ -46,7 +49,7 @@ c-for-non-beginners/
 ```
 
 3. Escreva um `README.md` (a página inicial da trilha) e organize o resto em subpastas, cada uma com o seu `README.md`. Exemplos de código (`.c`, `.h`, `.sh`) ao lado dos textos aparecem no site com realce de sintaxe.
-4. Gere o site de novo (veja abaixo). A trilha aparece como uma aba nova, com o menu montado a partir das pastas, em ordem alfabética (use prefixos como `01-`, `02-` para controlar a ordem).
+4. Gere o site de novo (veja abaixo). A trilha aparece como uma aba nova (na posição dada por `ordem`), com o menu montado a partir das pastas, em ordem alfabética (use prefixos como `01-`, `02-` para controlar a ordem).
 
 ## O site
 

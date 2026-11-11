@@ -49,6 +49,8 @@ def carregar():
             paginas[rel] = texto
         elif ext in EXT_CODIGO and os.path.basename(rel) != "trilha.json":
             codigos[rel] = {"lang": EXT_CODIGO[ext], "texto": texto}
+        elif os.path.basename(rel) == "Makefile":
+            codigos[rel] = {"lang": "makefile", "texto": texto}
     return paginas, codigos
 
 
@@ -60,7 +62,7 @@ def achar_trilhas():
             t = json.load(open(cfg, encoding="utf-8"))
             t["id"] = d
             trilhas.append(t)
-    return trilhas
+    return sorted(trilhas, key=lambda t: (t.get("ordem", 99), t["id"]))
 
 
 def extras_da_piscine(local, pasta_local, prefixo, paginas, codigos):
@@ -103,8 +105,11 @@ def nav_piscine(pre, pags):
         return re.sub(r"^Resposta — ", "", t)
 
     aulas = sorted(p for p in pags if re.match(r"^" + pre + r"/01-exemplos/\d\d-", p))
-    mods = ["shell00", "c00-basico", "c01-ponteiros", "c02-strings",
-            "c03-memoria", "c04-recursao"]
+    mods = sorted(p.split("/")[2] for p in pags
+                  if re.match(r"^" + pre + r"/02-exercicios/[^/]+$", p)
+                  and not p.endswith("/exames"))
+    mods = [m for m in mods if m.startswith("shell")] + [m for m in mods if not m.startswith("shell")]
+    exames = sorted(p for p in pags if re.match(r"^" + pre + r"/02-exercicios/exames/exame-\d+$", p))
     nav = [
         {"grupo": "Começo", "itens": [
             {"id": pre, "titulo": "Visão geral e plano de 7 dias"},
@@ -122,8 +127,7 @@ def nav_piscine(pre, pags):
              "titulo": tit(pre + "/02-exercicios/" + m).split(" — ")[0]}
             for m in mods] + [
             {"id": pre + "/02-exercicios/exames", "titulo": "Simulações de exame"}] + [
-            {"id": pre + "/02-exercicios/exames/exame-0%d" % i,
-             "titulo": "Exame 0%d" % i} for i in (1, 2, 3)]},
+            {"id": p, "titulo": "Exame " + p[-2:]} for p in exames]},
     ]
     for mod in mods + ["exames"]:
         ids = sorted(p for p in pags if p.startswith(pre + "/03-respostas/%s/" % mod))
@@ -134,19 +138,19 @@ def nav_piscine(pre, pags):
 
 
 def nav_generica(pre, pags):
-    """Menu para trilhas novas: um grupo por subpasta, em ordem alfabetica."""
-    nav = [{"grupo": "Começo", "itens": [{"id": pre, "titulo": "Visão geral"}]}]
-    subpastas = sorted({p.split("/")[1] for p in pags
-                        if p.startswith(pre + "/") and p.count("/") >= 1})
-    for sp in subpastas:
-        base = pre + "/" + sp
-        ids = sorted(p for p in pags if p == base or p.startswith(base + "/"))
-        if not ids:
-            continue
-        grupo = pags[base]["titulo"] if base in pags else sp
-        nav.append({"grupo": re.sub(r"^\d+[-_ ]*", "", grupo),
-                    "itens": [{"id": p, "titulo": pags[p]["titulo"]} for p in ids]})
-    return nav
+    """Menu para trilhas novas: as páginas das subpastas, em ordem alfabética."""
+    ids = sorted(p for p in pags if p.startswith(pre + "/"))
+
+    def titulo(pid):
+        return re.sub(r"^\d+\s*[—–-]\s*", "", pags[pid]["titulo"])
+
+    return [
+        {"grupo": "Começo", "itens": [{"id": pre, "titulo": "Visão geral"}]},
+        {"grupo": "Aulas", "itens": [
+            {"id": p, "titulo": "%s · %s" % (p.split("/")[1][:2], titulo(p))
+             if re.match(r"^\d\d", p.split("/")[1]) else titulo(p)}
+            for p in ids]},
+    ]
 
 
 def main():
