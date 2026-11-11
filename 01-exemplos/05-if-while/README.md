@@ -149,4 +149,55 @@ while (i > 0)
 4. Dentro do laço externo, logo antes do laço interno.
 5. Só uma (a próxima instrução).
 
+Mini-exercício (as duas partes num arquivo):
+```c
+#include "../util/ft_util.h"
+
+void	pares(void)
+{
+	int	i;
+
+	i = 0;
+	while (i <= 20)
+	{
+		ft_putnbr(i);
+		ft_putchar(' ');
+		i += 2;
+	}
+	ft_putchar('\n');
+}
+
+void	triangulo(int linhas)
+{
+	int	l;
+	int	c;
+
+	l = 1;
+	while (l <= linhas)
+	{
+		c = 0;
+		while (c < l)
+		{
+			ft_putchar('*');
+			c++;
+		}
+		ft_putchar('\n');
+		l++;
+	}
+}
+
+int	main(void)
+{
+	pares();
+	triangulo(5);
+	return (0);
+}
+```
+
+```bash
+cc -Wall -Wextra -Werror arquivo.c ../util/ft_util.c && ./a.out
+```
+
+No triângulo, o laço de dentro vai até `l` (o número da linha): a linha 1 tem 1 estrela, a linha 5 tem 5.
+
 </details>

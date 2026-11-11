@@ -18,6 +18,10 @@ Cada aula tem um `README.md` curto (5 a 10 minutos) e programas `.c` ao lado. Le
 | 12 | [Git](12-git/) | clone, add, commit, push, `ex00/` |
 | 13 | [Erros](13-erros/) | ler mensagens do `cc`, segfault |
 
+## Sobre os comentários nos trechos de código
+
+Nos `README.md`, alguns trechos têm comentários `/* ... */` **dentro** das funções, para explicar linha por linha. Isso é só anotação de aula: **a Norma proíbe comentários dentro de funções.** Os arquivos `.c` seguem a regra, e o seu código entregue também deve seguir.
+
 ## A pasta `util/`
 
 A partir da aula 02, os exemplos usam funções de apoio (`ft_putchar`, `ft_putstr`, `ft_putendl`, `ft_putnbr`, `ft_putptr`) de [`util/ft_util.c`](util/ft_util.c), para não repetir código. Por isso o comando de compilação inclui esse arquivo:

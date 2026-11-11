@@ -111,6 +111,10 @@ Vou sair com o codigo 42. Rode: echo $?
                                                   └──────────────┘
 ```
 
+## Um aviso sobre os trechos de código das aulas
+
+A partir da próxima aula, alguns trechos terão comentários `/* ... */` dentro das funções, para explicar o que cada linha faz. A Norma **proíbe** comentários dentro de funções: nos seus exercícios, não faça isso. Os arquivos `.c` das aulas seguem a regra.
+
 ## É normal estranhar
 
 - "Por que preciso contar os bytes no `write`?" Porque em C quase nada é automático. Isso vai ficar natural quando você escrever `ft_putstr`.
@@ -136,5 +140,18 @@ Escreva `meu_nome.c`, que imprime seu nome e uma quebra de linha e termina com c
 3. `1` é a saída padrão (stdout), `2` é a saída de erro (stderr). No terminal as duas aparecem, mas são canais diferentes: `./a.out > arquivo` só redireciona o `1`.
 4. O código de saída do `ls` (normalmente `0`), porque `$?` guarda o código do **último** comando.
 5. Porque o shell só procura programas nas pastas listadas em `$PATH`, e a pasta atual não está lá por segurança.
+
+Mini-exercício:
+```c
+#include <unistd.h>
+
+int	main(void)
+{
+	write(1, "Seu Nome\n", 9);
+	return (7);
+}
+```
+
+Conte os bytes: `Seu Nome` tem 8 caracteres, mais o `\n` dá 9. Depois de `./a.out`, `echo $?` mostra `7`.
 
 </details>

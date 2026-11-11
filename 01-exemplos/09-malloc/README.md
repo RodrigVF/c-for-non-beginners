@@ -154,4 +154,36 @@ Corrija [`vazamento.c`](vazamento.c) para que o `valgrind` mostre `All heap bloc
 4. Array local: não, ele é destruído no `return`. Ponteiro de `malloc`: sim, o heap continua válido até alguém dar `free`.
 5. Blocos alocados para os quais não existe mais nenhum ponteiro: impossível liberar. É leak com certeza.
 
+Mini-exercício: o `free` entra dentro do laço, depois do último uso do bloco e antes do próximo `malloc`, que sobrescreveria o ponteiro.
+```c
+#include <stdlib.h>
+#include "../util/ft_util.h"
+
+int	main(void)
+{
+	int	*numeros;
+	int	i;
+
+	i = 0;
+	while (i < 3)
+	{
+		numeros = malloc(sizeof(int) * 10);
+		if (numeros == NULL)
+			return (1);
+		numeros[0] = i;
+		free(numeros);
+		i++;
+	}
+	ft_putendl("Pedi 3 blocos e devolvi os 3.");
+	return (0);
+}
+```
+
+```bash
+cc -Wall -Wextra -Werror -g vazamento.c ../util/ft_util.c -o vazamento
+valgrind --leak-check=full ./vazamento
+```
+
+Resultado: `All heap blocks were freed -- no leaks are possible`.
+
 </details>

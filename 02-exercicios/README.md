@@ -19,7 +19,7 @@
 1. Leia o subject **inteiro**, duas vezes. Na Piscine, muita gente erra por não ler um detalhe.
 2. Crie o arquivo dentro de `minha-versao/`, imitando a estrutura de entrega:
    ```
-   piscine-prep/minha-versao/c00/ex00/ft_putchar.c
+   c-for-non-begginers/minha-versao/c00/ex00/ft_putchar.c
    ```
 3. Escreva com o cabeçalho da 42 no topo (veja [`../ferramentas/`](../ferramentas/)).
 4. Teste:

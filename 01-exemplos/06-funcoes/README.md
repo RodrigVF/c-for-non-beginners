@@ -107,4 +107,35 @@ Escreva `int	ft_max(int a, int b)` que devolve o maior. Depois `void	ft_print_ma
 4. Porque a variável deixa de existir quando a função termina; o endereço passa a apontar para memória que será reutilizada.
 5. Restringe a visibilidade da função ao arquivo onde ela foi definida.
 
+Mini-exercício:
+```c
+#include "../util/ft_util.h"
+
+int	ft_max(int a, int b)
+{
+	if (a > b)
+		return (a);
+	return (b);
+}
+
+void	ft_print_max(int a, int b)
+{
+	ft_putnbr(ft_max(a, b));
+	ft_putchar('\n');
+}
+
+int	main(void)
+{
+	ft_print_max(3, 42);
+	ft_print_max(-1, -7);
+	return (0);
+}
+```
+
+```bash
+cc -Wall -Wextra -Werror arquivo.c ../util/ft_util.c && ./a.out
+```
+
+`ft_max` vem antes de `ft_print_max` no arquivo porque é usada por ela (aula 02).
+
 </details>

@@ -1,6 +1,8 @@
-# piscine-prep — 7 dias de C e shell antes da Piscine da 42SP
+# c-for-non-begginers — C e shell para quem já programa (preparação para a Piscine da 42SP)
 
 Repositório de estudo para quem **já programa** em outra linguagem e **nunca escreveu C**. Não explica lógica de programação: foca no que é específico de C (sintaxe, por que ela é assim, e como a memória funciona) e no shell.
+
+**📱 Versão web (para estudar no celular):** as aulas, exercícios e respostas também estão num site estático em [`docs/`](docs/), gerado a partir destes arquivos. Veja [O site](#o-site) no fim.
 
 ## A Piscine, em poucas linhas
 
@@ -13,7 +15,7 @@ Datas, duração exata, regras de exame, o que é permitido levar e outros detal
 ## Estrutura
 
 ```
-piscine-prep/
+c-for-non-begginers/
 ├── README.md            ← você está aqui (plano de 7 dias no fim)
 ├── run.sh               ← compila e testa um exercício pelo nome
 ├── 01-exemplos/         ← 13 aulas curtas, cada uma com código que roda
@@ -22,6 +24,8 @@ piscine-prep/
 ├── testes/              ← main.c e saída esperada de cada exercício
 ├── minha-versao/        ← onde VOCÊ escreve as suas soluções
 ├── ferramentas/         ← gerador do cabeçalho da 42
+├── site/                ← código do site e gerador (build.py)
+├── docs/                ← site pronto (gerado; não edite à mão)
 └── .vscode/             ← configuração do editor (tabs, régua de 80 colunas)
 ```
 
@@ -114,7 +118,7 @@ Ritmo pensado para **3 a 5 horas por dia**. Se um dia atrasar, não pule: as aul
 - Extra: monte o simulado de git da aula 12 e entregue o c00 nele, com `ex00/`, `ex01/`...
 
 ### Dia 3 — Strings e erros
-- Aulas: [07 Arrays e strings](01-exemplos/07-arrays-strings/), [13 Erros](01-exemplos/13-erros/)
+- Aulas: [07 Arrays e strings](01-exemplos/07-arrays-strings/), [13 Erros](01-exemplos/13-erros/), [10 Recursão](01-exemplos/10-recursao/) (curta; o `ft_putnbr` precisa dela)
 - Exercícios: c00 ex06 (`ft_putnbr`, com INT_MIN) · c02 ex00 (`ft_strcpy`), ex03 (`ft_str_is_numeric`)
 - Meta: entender por que toda função de string é "anda até o `'\0'`".
 
@@ -128,7 +132,7 @@ Ritmo pensado para **3 a 5 horas por dia**. Se um dia atrasar, não pule: as aul
 - Simulação: [Exame 01](02-exercicios/exames/exame-01.md) (30 min, sem consulta)
 
 ### Dia 6 — Recursão + segundo exame
-- Aula: [10 Recursão](01-exemplos/10-recursao/)
+- Releia a aula [10 Recursão](01-exemplos/10-recursao/) (lida no dia 3)
 - Exercícios: c04 inteiro (`ft_factorial`, `ft_power`)
 - Simulação: [Exame 02](02-exercicios/exames/exame-02.md) (40 min)
 - Refaça, do zero e sem olhar, os exercícios em que você errou até agora.
@@ -146,3 +150,23 @@ Ritmo pensado para **3 a 5 horas por dia**. Se um dia atrasar, não pule: as aul
 - **Rode a `norminette`** antes de cada push.
 - **Pergunte aos colegas e explique para eles.** Explicar ponteiros para alguém é a melhor forma de aprender ponteiros.
 - `man` é seu amigo: `man 2 write`, `man 3 malloc`, `man ascii`.
+
+## O site
+
+O site é **estático** (HTML, CSS e JavaScript, sem backend e sem framework). Ele tem menu, busca, respostas escondidas até você tocar, marcação de "estudado" (guardada no seu navegador), tema escuro e funciona offline depois da primeira visita.
+
+- O código fica em [`site/`](site/). O resultado vai para `docs/`.
+- Depois de editar qualquer `.md` ou exemplo, gere de novo e faça commit da pasta `docs/`:
+
+```bash
+python3 site/build.py
+```
+
+- Para ver localmente:
+
+```bash
+python3 -m http.server 8000 --directory docs
+```
+
+**Publicar na Vercel:** importe o repositório. O [`vercel.json`](vercel.json) já diz que não há framework e que os arquivos prontos estão em `docs/`. Se a Vercel pedir, use *Framework Preset* = **Other**, *Build Command* vazio e *Output Directory* = `docs`.
+

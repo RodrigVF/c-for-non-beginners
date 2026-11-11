@@ -151,4 +151,36 @@ Escreva `int	ft_count_char(char *str, char c)` que devolve quantas vezes `c` apa
 4. `'\0'` é o byte de valor 0 (fim de string). `'0'` é o caractere do dígito zero (valor 48).
 5. Porque a função só recebe o endereço do primeiro elemento e não tem como saber o tamanho. Strings não precisam porque terminam em `'\0'`.
 
+Mini-exercício:
+```c
+#include "../util/ft_util.h"
+
+int	ft_count_char(char *str, char c)
+{
+	int	i;
+	int	total;
+
+	i = 0;
+	total = 0;
+	while (str[i] != '\0')
+	{
+		if (str[i] == c)
+			total++;
+		i++;
+	}
+	return (total);
+}
+
+int	main(void)
+{
+	ft_putnbr(ft_count_char("banana", 'a'));
+	ft_putchar('\n');
+	return (0);
+}
+```
+
+```bash
+cc -Wall -Wextra -Werror arquivo.c ../util/ft_util.c && ./a.out
+```
+
 </details>

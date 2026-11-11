@@ -31,7 +31,7 @@ Arquivo: [`ft_strdup.c`](ft_strdup.c) (com o cabeçalho da 42 no topo)
 
 ## Raciocínio
 
-1. Mede `src` (sem `ft_strlen` porque não é *allowed function*; repetimos o laço aqui).
+1. Mede `src`. Não dá para chamar a `strlen` da biblioteca (não está nas *allowed functions*), mas você pode escrever um `ft_strlen` auxiliar no mesmo arquivo. Aqui o laço é curto, então ficou direto na função.
 2. Aloca `len + 1` bytes: o `+ 1` é o `'\0'`.
 3. Testa `NULL` (falta de memória).
 4. Copia **incluindo** o `'\0'`: por isso `i <= len`.

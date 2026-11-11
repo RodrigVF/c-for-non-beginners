@@ -162,4 +162,15 @@ Quem vem de Python/JS nunca pensou em "ordem das funções". Lá, a função só
 4. Evitar que o mesmo header seja colado duas vezes no mesmo arquivo (o que causaria declarações repetidas).
 5. Porque a correção compila seu arquivo junto com a `main` dela. Duas `main` geram erro de linker (`multiple definition of 'main'`).
 
+Mini-exercício:
+
+1. Sem o protótipo, o compilador reclama duas vezes:
+```
+prototipo.c:18:9: error: implicit declaration of function 'ft_diz_oi'
+prototipo.c:22:9: error: conflicting types for 'ft_diz_oi'
+```
+O primeiro erro é a chamada de uma função que ele ainda não viu. O segundo é consequência do primeiro: ao ver a chamada sem declaração, o compilador "inventou" uma assinatura antiga (que devolve `int`), e depois achou a definição com `void`. Corrija o primeiro e o segundo some.
+
+2. O erro é `undefined reference to 'ft_putstr'` (e das outras funções), seguido de `ld returned 1 exit status`. Vem do **linker** (`ld`): a compilação de `com_util.c` funcionou, mas faltou a peça com as definições.
+
 </details>

@@ -142,4 +142,23 @@ Escreva um programa que imprime o alfabeto maiúsculo usando uma variável `char
 4. Lixo: o valor que estava naquela região da memória antes. Não dá para prever.
 5. É uma regra de estilo da Norma, para deixar as declarações separadas da lógica e padronizar o código. O C aceita normalmente.
 
+Mini-exercício:
+```c
+#include <unistd.h>
+
+int	main(void)
+{
+	char	c;
+
+	c = 'A';
+	while (c <= 'Z')
+	{
+		write(1, &c, 1);
+		c++;
+	}
+	write(1, "\n", 1);
+	return (0);
+}
+```
+
 </details>

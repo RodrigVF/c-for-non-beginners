@@ -1,7 +1,7 @@
 # C00 — Primeiros passos em C
 
 > Recriação no estilo da Piscine (não é o subject oficial).
-> Antes: aulas [01](../../01-exemplos/01-anatomia/) a [05](../../01-exemplos/05-if-while/).
+> Antes: aulas [01](../../01-exemplos/01-anatomia/) a [05](../../01-exemplos/05-if-while/). Para o ex06 (`ft_putnbr`), leia também a [aula 10 (recursão)](../../01-exemplos/10-recursao/).
 
 Regras gerais (valem para todos os módulos de C):
 - Compilação com `cc -Wall -Wextra -Werror`.

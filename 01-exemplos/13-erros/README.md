@@ -171,4 +171,15 @@ Corrija os 6 arquivos de [`quebrados/`](quebrados/) **numa cópia** (não altere
 4. Linha 42, coluna 5.
 5. Porque um erro costuma gerar vários outros em cascata; corrigido o primeiro, muitos dos seguintes somem.
 
+Mini-exercício:
+
+| Arquivo | Correção |
+|---|---|
+| `falta_ponto_virgula.c` | `;` no fim do `write(...)` |
+| `implicit_declaration.c` | `#include <unistd.h>` e definir `ft_putchar` **antes** da `main` |
+| `undefined_reference.c` | escrever a definição de `ft_putchar` (o protótipo sozinho não basta) |
+| `variavel_nao_usada.c` | apagar a variável (e a linha em branco depois dela, se não sobrar declaração) |
+| `segfault.c` | usar um array em vez de literal: `char str[9];`, copiar as letras e o `'\0'`, e só então alterar `str[0]` |
+| `null.c` | não passar `NULL`; ou proteger a função com `if (str == NULL) return (0);` no início |
+
 </details>

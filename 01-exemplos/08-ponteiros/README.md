@@ -168,4 +168,50 @@ Escreva `void	ft_set_zero(int *n)` que zera a variável de quem chamou. Depois `
 4. `*(tab + 3)`.
 5. Porque C passa argumentos por valor: com `int`, a função trocaria só cópias. Com os endereços, ela altera as variáveis originais.
 
+Mini-exercício:
+```c
+#include "../util/ft_util.h"
+
+void	ft_set_zero(int *n)
+{
+	*n = 0;
+}
+
+void	ft_inc_all(int *tab, int size)
+{
+	int	*fim;
+
+	fim = tab + size;
+	while (tab < fim)
+	{
+		*tab = *tab + 1;
+		tab++;
+	}
+}
+
+int	main(void)
+{
+	int	x;
+	int	tab[3];
+
+	x = 42;
+	ft_set_zero(&x);
+	tab[0] = 1;
+	tab[1] = 2;
+	tab[2] = 3;
+	ft_inc_all(tab, 3);
+	ft_putnbr(x);
+	ft_putchar(' ');
+	ft_putnbr(tab[0] + tab[1] + tab[2]);
+	ft_putchar('\n');
+	return (0);
+}
+```
+
+```bash
+cc -Wall -Wextra -Werror arquivo.c ../util/ft_util.c && ./a.out
+```
+
+Saída: `0 9` (`x` foi zerado, e o array virou `{2, 3, 4}`). Em `ft_inc_all`, `fim` aponta para logo depois do último elemento, e `tab` avança até chegar nele.
+
 </details>
